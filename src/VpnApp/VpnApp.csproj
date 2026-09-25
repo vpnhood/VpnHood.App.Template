@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>What every build of the app shares: its settings, its options and the premium tier it sells</Description>
+		<TargetFramework>net10.0</TargetFramework>
+	</PropertyGroup>
+
+	<!-- The app's settings, embedded once for every build: VpnAppConfigs reads them from this
+	     assembly. A Debug or Release file beside them (appsettings.Debug.json) overrides what it
+	     names, for that configuration only. -->
+	<ItemGroup>
+		<EmbeddedResource Include="../../app/appsettings.json" LogicalName="AppSettings.json" />
+		<EmbeddedResource Include="../../app/appsettings.$(Configuration).json" LogicalName="AppSettings_Environment.json"
+			Condition="Exists('../../app/appsettings.$(Configuration).json')" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="VpnHood.AppLib.App" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppLib.Api.WebHost" Version="$(VpnHoodVersion)" />
+		<!-- The IP-location database the app looks countries up in. -->
+		<PackageReference Include="VpnHood.Net.IpLocations.Assets.Ip2LocationLite" Version="8.2.854" />
+	</ItemGroup>
+
+</Project>

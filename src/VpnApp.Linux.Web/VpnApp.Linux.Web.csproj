@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Description>The app for Linux, handed out by your website</Description>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<!-- A plain target framework names no platform, so the project does. -->
+		<VhAppPlatform>linux</VhAppPlatform>
+		<!-- The binary, its service and their folders are called by the app's short name. -->
+		<AssemblyName>$(VhAppShortName)</AssemblyName>
+		<!-- Your website hands this build out, and its id says so (….linux.web). -->
+		<VhAppIdChannel>web</VhAppIdChannel>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../VpnApp/VpnApp.csproj" />
+		<!-- Linux as the app runs on it: the service, the window and the commands. -->
+		<PackageReference Include="VpnHood.AppLib.App.Linux" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Hosting.Cli.Linux" Version="$(VpnHoodVersion)" />
+		<!-- The UI, in its own window: the host, the pages and the files they draw. -->
+		<PackageReference Include="VpnHood.AppUi.Hosting.Avalonia.Desktop" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Presentation.Classic.Avalonia" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Assets.Classic" Version="$(VpnHoodVersion)" />
+		<!-- Sign-in and purchases on your portal. -->
+		<PackageReference Include="VpnHood.AppLib.Portal" Version="$(VpnHoodVersion)" />
+	</ItemGroup>
+</Project>

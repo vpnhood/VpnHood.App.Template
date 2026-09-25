@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>The app's network extension on iOS: the tunnel, in a process of its own</Description>
+    <TargetFramework>net11.0-ios</TargetFramework>
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+    <SupportedOSPlatformVersion>18.0</SupportedOSPlatformVersion>
+    <UseMaui>false</UseMaui>
+    <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
+    <AssemblyName>VpnAppExtension</AssemblyName>
+    <!-- Its bundle id and name follow the app's (app/app.props). The app's own ids come from the
+         VpnHood app package, which the extension does not take, so it states its two here. -->
+    <ApplicationId>$(VhAppIdBase).ios.networkextension</ApplicationId>
+    <ApplicationTitle>$(VhAppName) Extension</ApplicationTitle>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <!-- Automatic signing: Xcode picks your team's certificate and profiles. -->
+    <AutomaticProvisioning>true</AutomaticProvisioning>
+    <CodesignKey>Apple Development</CodesignKey>
+    <!-- Packaged as an .appex (a PlugIn) inside the app. -->
+    <IsAppExtension>true</IsAppExtension>
+    <!-- Trim the system assemblies only. -->
+    <MtouchLink>SdkOnly</MtouchLink>
+    <!-- iOS ends a network extension that passes about 50 MB: the managed heap is held small, so a
+         burst of connections is collected long before that. -->
+    <MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=8m,nursery-size=2m</MtouchExtraArgs>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.GC.ConserveMemory" Value="9" />
+    <!-- The App Group it shares with the app: the same the app's build derives. -->
+    <CustomEntitlements Include="com.apple.security.application-groups" Type="StringArray" Value="group.$(VhAppIdBase).ios" />
+  </ItemGroup>
+
+  <!-- Apple's privacy manifest for the .appex, scanned as a bundle of its own. -->
+  <ItemGroup>
+    <BundleResource Include="PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The tunnel itself; this project adds only the class iOS starts. -->
+    <PackageReference Include="VpnHood.Core.Client.Devices.Ios" Version="$(VpnHoodVersion)" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<!-- CFBundleIdentifier and CFBundleDisplayName are the build's (the csproj), the versions the app's.
+	     None is written here. -->
+	<!-- false: standard encryption only, as the app. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.networkextension.packet-tunnel</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>PacketTunnelProvider</string>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>The app for iOS, on the App Store</Description>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0-ios</TargetFramework>
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+    <SupportedOSPlatformVersion>18.0</SupportedOSPlatformVersion>
+    <UseMaui>false</UseMaui>
+    <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
+    <!-- The bundle's executable is the app's short name; its bundle id, name, App Group and
+         extension id come from app/app.props. -->
+    <AssemblyName>$(VhAppShortName)</AssemblyName>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <!-- Automatic signing: Xcode picks your team's certificate and profiles. -->
+    <AutomaticProvisioning>true</AutomaticProvisioning>
+    <CodesignKey>Apple Development</CodesignKey>
+  </PropertyGroup>
+
+  <!-- Apple's privacy manifest, at the root of the .app bundle, where App Store Connect looks for it.
+       The extension carries its own. -->
+  <ItemGroup>
+    <BundleResource Include="PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../VpnApp/VpnApp.csproj" />
+    <!-- iOS as the app runs on it: the device, and the start of the app and its tunnel. -->
+    <PackageReference Include="VpnHood.AppLib.App.Ios" Version="$(VpnHoodVersion)" />
+    <!-- The UI, as the app's window: the host, the pages and the files they draw. -->
+    <PackageReference Include="VpnHood.AppUi.Hosting.Avalonia.Ios" Version="$(VpnHoodVersion)" />
+    <PackageReference Include="VpnHood.AppUi.Presentation.Classic.Avalonia" Version="$(VpnHoodVersion)" />
+    <PackageReference Include="VpnHood.AppUi.Assets.Classic" Version="$(VpnHoodVersion)" />
+    <!-- The App Store: its updates and reviews, and StoreKit billing and Sign in with Apple. -->
+    <PackageReference Include="VpnHood.AppLib.Stores.AppStore.Core" Version="$(VpnHoodVersion)" />
+    <PackageReference Include="VpnHood.AppLib.Stores.AppStore" Version="$(VpnHoodVersion)" />
+    <!-- Sign-in and purchases on your portal. -->
+    <PackageReference Include="VpnHood.AppLib.Portal" Version="$(VpnHoodVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The network extension, bundled as a PlugIn (.appex) inside the app. A publish that signs the
+         app with its own profile passes it as CodesignProvision; the extension must not inherit it. -->
+    <ProjectReference Include="../VpnApp.Ios.Extension/VpnApp.Ios.Extension.csproj">
+      <IsAppExtension>true</IsAppExtension>
+      <UndefineProperties>CodesignProvision</UndefineProperties>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

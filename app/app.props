@@ -1,0 +1,21 @@
+<Project>
+  <!-- Your app. Every build takes its ids and its name from these two values:
+
+         com.example.myvpn.android          the Google Play build
+         com.example.myvpn.android.web      the APK your website hands out
+         com.example.myvpn.ios              the App Store build, with its network extension
+                                            (…ios.networkextension) and App Group (group.…ios)
+         com.example.myvpn.windows.web      the Windows build
+         com.example.myvpn.linux.web        the Linux build
+
+       Choose the base once: the stores key your listings on these ids, and an installed app is known
+       by them, so they must not change after your first release.
+
+       The Windows executable and service, and the Linux binary and its service, are called by the
+       name's letters and digits (MyVPN). To call them otherwise, add
+       <VhAppShortName>YourName</VhAppShortName> below - also before your first release. -->
+  <PropertyGroup>
+    <VhAppIdBase>com.example.myvpn</VhAppIdBase>
+    <VhAppName>My VPN</VhAppName>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/app/">
+    <File Path="app/app.props" />
+    <File Path="app/appsettings.json" />
+  </Folder>
+  <Folder Name="/app/branding/">
+    <File Path="app/branding/images/logo.png" />
+    <File Path="app/branding/content/en/privacy-consent.md" />
+  </Folder>
+  <Folder Name="/build/">
+    <File Path="README.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+  </Folder>
+  <Project Path="src/VpnApp/VpnApp.csproj" />
+  <Project Path="src/VpnApp.Android.Google/VpnApp.Android.Google.csproj" />
+  <Project Path="src/VpnApp.Android.Web/VpnApp.Android.Web.csproj" />
+  <Project Path="src/VpnApp.Ios.Apple/VpnApp.Ios.Apple.csproj" />
+  <Project Path="src/VpnApp.Ios.Extension/VpnApp.Ios.Extension.csproj" />
+  <Project Path="src/VpnApp.Linux.Web/VpnApp.Linux.Web.csproj" />
+  <Project Path="src/VpnApp.Windows.Web/VpnApp.Windows.Web.csproj" />
+</Solution>

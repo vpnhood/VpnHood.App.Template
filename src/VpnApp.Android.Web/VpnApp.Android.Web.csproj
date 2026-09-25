@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Description>The app for Android, as the APK your website hands out</Description>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0-android36.1</TargetFramework>
+		<SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
+		<!-- Your website hands this build out, and its id says so (….android.web), apart from the
+		     Play build's. -->
+		<VhAppIdChannel>web</VhAppIdChannel>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<RuntimeIdentifiers>android-arm64;android-x64</RuntimeIdentifiers>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<!-- android-arm is still what some Android TVs run. -->
+		<RuntimeIdentifiers>android-arm64;android-x64;android-arm</RuntimeIdentifiers>
+		<PublishTrimmed>True</PublishTrimmed>
+		<RunAOTCompilation>True</RunAOTCompilation>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../VpnApp/VpnApp.csproj" />
+		<!-- Android as the app runs on it: the VPN service, the device, the tile. -->
+		<PackageReference Include="VpnHood.AppLib.App.Android" Version="$(VpnHoodVersion)" />
+		<!-- The UI, as the app's activity: the host, the pages and the files they draw. -->
+		<PackageReference Include="VpnHood.AppUi.Hosting.Avalonia.Android" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Presentation.Classic.Avalonia" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Assets.Classic" Version="$(VpnHoodVersion)" />
+		<!-- Sign-in and purchases on your portal. -->
+		<PackageReference Include="VpnHood.AppLib.Portal" Version="$(VpnHoodVersion)" />
+	</ItemGroup>
+</Project>

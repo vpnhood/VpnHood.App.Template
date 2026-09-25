@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Description>The app for Android, on Google Play</Description>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0-android36.1</TargetFramework>
+		<SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<RuntimeIdentifiers>android-arm64;android-x64</RuntimeIdentifiers>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<!-- android-arm is still what some Android TVs run. -->
+		<RuntimeIdentifiers>android-arm64;android-x64;android-arm</RuntimeIdentifiers>
+		<PublishTrimmed>True</PublishTrimmed>
+		<RunAOTCompilation>True</RunAOTCompilation>
+		<!-- Play asks for an optimized DEX: R8 shrinks the Java side. The SDK's rules keep the names,
+		     so the Java calls into .NET still find what they call. -->
+		<AndroidLinkTool>r8</AndroidLinkTool>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../VpnApp/VpnApp.csproj" />
+		<!-- Android as the app runs on it: the VPN service, the device, the tile. -->
+		<PackageReference Include="VpnHood.AppLib.App.Android" Version="$(VpnHoodVersion)" />
+		<!-- The UI, as the app's activity: the host, the pages and the files they draw. -->
+		<PackageReference Include="VpnHood.AppUi.Hosting.Avalonia.Android" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Presentation.Classic.Avalonia" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Assets.Classic" Version="$(VpnHoodVersion)" />
+		<!-- Google Play: its updates and reviews, and its billing and sign-in. -->
+		<PackageReference Include="VpnHood.AppLib.Stores.GooglePlay.Core" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppLib.Stores.GooglePlay" Version="$(VpnHoodVersion)" />
+		<!-- Sign-in and purchases on your portal. -->
+		<PackageReference Include="VpnHood.AppLib.Portal" Version="$(VpnHoodVersion)" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,21 @@
+<Project>
+
+  <!-- Your app: its id base and its name, for every project below. -->
+  <Import Project="$(MSBuildThisFileDirectory)app/app.props" />
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <!-- The VpnHood packages, one version for all of them: raise it to upgrade. -->
+    <VpnHoodVersion>8.2.854-local</VpnHoodVersion>
+  </PropertyGroup>
+
+  <!-- Packages of a VpnHood not yet released, to try the template against before they are: a
+       .packages folder beside this file, which git ignores, joins the package sources when it
+       exists. -->
+  <PropertyGroup Condition="Exists('$(MSBuildThisFileDirectory).packages')">
+    <RestoreAdditionalProjectSources>$(MSBuildThisFileDirectory).packages</RestoreAdditionalProjectSources>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,40 @@
+<Project>
+
+  <!-- The app's own files for the UI - its logo, its consent summary - zipped from app/branding into
+       assets/app.zip beside every build, where the UI reads it before VpnHood's store: a file here
+       replaces the store's of the same path (VpnAppOptions: UiZipAssets). Placed the way each platform
+       reads files, as the store's package places ui.zip. Apps only: the shared project and the iOS
+       extension draw nothing. -->
+  <PropertyGroup>
+    <VpnAppBrandingDir>$(MSBuildThisFileDirectory)app/branding</VpnAppBrandingDir>
+    <VpnAppBrandingZip>$(MSBuildProjectDirectory)/$(IntermediateOutputPath)app.zip</VpnAppBrandingZip>
+    <!-- .NET for Android turns an app's OutputType into Library; AndroidApplication still tells. -->
+    <VpnAppIsApp Condition="'$(OutputType)' == 'Exe' Or '$(OutputType)' == 'WinExe' Or '$(AndroidApplication)' == 'true'">true</VpnAppIsApp>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(VpnAppIsApp)' == 'true' And $(TargetFramework.Contains('-android'))">
+    <!-- The leading assets\ is the package's asset root, which the SDK drops: the asset is
+         "assets/app.zip". -->
+    <AndroidAsset Include="$(VpnAppBrandingZip)" Link="assets\assets\app.zip" Visible="false" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(VpnAppIsApp)' == 'true' And $(TargetFramework.Contains('-ios'))">
+    <BundleResource Include="$(VpnAppBrandingZip)" Link="assets\app.zip" Visible="false" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(VpnAppIsApp)' == 'true' And !$(TargetFramework.Contains('-android')) And !$(TargetFramework.Contains('-ios'))">
+    <None Include="$(VpnAppBrandingZip)" Link="assets\app.zip" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+  </ItemGroup>
+
+  <!-- Zipped again whenever a file in app/branding changed: once the build's folders exist, before
+       anything reads the zip. -->
+  <Target Name="VpnAppZipBranding" AfterTargets="PrepareForBuild" Condition="'$(VpnAppIsApp)' == 'true'"
+          Inputs="@(VpnAppBrandingFile)" Outputs="$(VpnAppBrandingZip)">
+    <ZipDirectory SourceDirectory="$(VpnAppBrandingDir)" DestinationFile="$(VpnAppBrandingZip)" Overwrite="true" />
+    <ItemGroup>
+      <FileWrites Include="$(VpnAppBrandingZip)" />
+    </ItemGroup>
+  </Target>
+  <ItemGroup>
+    <VpnAppBrandingFile Include="$(VpnAppBrandingDir)/**" />
+  </ItemGroup>
+
+</Project>
