@@ -11,11 +11,15 @@
        Choose the base once: the stores key your listings on these ids, and an installed app is known
        by them, so they must not change after your first release.
 
-       The Windows executable and service, and the Linux binary and its service, are called by the
-       name's letters and digits (MyVPN). To call them otherwise, add
-       <VhAppShortName>YourName</VhAppShortName> below - also before your first release. -->
+       Your release files, the Windows executable and service, and the Linux binary and its service
+       are called by the name's letters and digits (MyVPN). To call them otherwise, add
+       <VhAppPackageTitle>YourName</VhAppPackageTitle> below - also before your first release.
+
+       Company is you, as the app's maker: the consent summary and the other documents the app shows
+       name you by it, and so do the executables' details, with a copyright made from it. -->
   <PropertyGroup>
     <VhAppIdBase>com.example.myvpn</VhAppIdBase>
     <VhAppName>My VPN</VhAppName>
+    <Company>My Company</Company>
   </PropertyGroup>
 </Project>

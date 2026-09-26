@@ -23,9 +23,9 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
     : AndroidAvaloniaApplication<ClassicAvaloniaApp>(javaReference, transfer)
 {
     // Called by the platform only in the app's own process: never in the VPN service's or the tile's.
-    protected override AppStartParams CreateStartParams()
+    protected override AppInitParams CreateInitParams()
     {
-        return new AppStartParams {
+        return new AppInitParams {
             AppId = PackageName ?? throw new InvalidOperationException("The app has no package name."),
             StorageFolderName = "app",
             AppOptionsFactory = CreateAppOptions
@@ -36,8 +36,7 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
     private static AppOptions CreateAppOptions(AppOptionsContext context)
     {
         var appConfigs = VpnAppConfigs.Load();
-        var options = VpnAppOptions.Create(context, appConfigs, AppConstants.AppName, AppConstants.IsDebugMode);
-        options.AdjustForSystemBars = false;
+        var options = VpnAppOptions.Create(context, appConfigs);
         // No store rules this build: a buyer may type a premium code in, or buy in your own shop.
         options.Premium = VpnAppOptions.CreatePremium(allowImportAccessCode: true, isPurchaseUrlSupported: true);
         options.AccountProvider = CreateAccountProvider(appConfigs, context);

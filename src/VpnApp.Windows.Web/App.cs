@@ -3,6 +3,7 @@ using VpnHood.AppLib.Abstractions.Accounts;
 using VpnHood.AppLib.App;
 using VpnHood.AppLib.Portal;
 using VpnHood.AppUi.Hosting.Avalonia.Desktop;
+using VpnHood.AppUi.Hosting.Cli;
 using VpnHood.AppUi.Hosting.Cli.Windows;
 using VpnHood.AppUi.Presentation.Classic.Avalonia;
 using VpnHood.Net.Toolkit.Logging;
@@ -16,9 +17,8 @@ internal static class App
     [STAThread]
     private static int Main(string[] args)
     {
-        return WindowsCliHost.Run(args, new WindowsCliHeadParams {
+        return WindowsCliHost.Run(args, new CliHeadParams {
             AppId = AppConstants.AppId,
-            LegacyStorageFolderName = null, // no release of this app kept its settings elsewhere
             AppOptionsFactory = CreateAppOptions,
             IsAddAccessKeySupported = VpnAppOptions.IsAddAccessKeySupported,
             Ui = new AvaloniaDesktopHost<ClassicAvaloniaApp>()
@@ -29,8 +29,7 @@ internal static class App
     private static AppOptions CreateAppOptions(AppOptionsContext context)
     {
         var appConfigs = VpnAppConfigs.Load();
-        var options = VpnAppOptions.Create(context, appConfigs, AppConstants.AppName, AppConstants.IsDebugMode);
-        options.LogServiceOptions.SingleLineConsole = false;
+        var options = VpnAppOptions.Create(context, appConfigs);
         // No store rules this build: a buyer may type a premium code in, or buy in your own shop.
         options.Premium = VpnAppOptions.CreatePremium(allowImportAccessCode: true, isPurchaseUrlSupported: true);
         options.AccountProvider = CreateAccountProvider(appConfigs, context);

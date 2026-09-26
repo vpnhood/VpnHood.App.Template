@@ -9,7 +9,7 @@
     <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
     <!-- The bundle's executable is the app's short name; its bundle id, name, App Group and
          extension id come from app/app.props. -->
-    <AssemblyName>$(VhAppShortName)</AssemblyName>
+    <AssemblyName>$(VhAppPackageTitle)</AssemblyName>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <!-- Automatic signing: Xcode picks your team's certificate and profiles. -->
     <AutomaticProvisioning>true</AutomaticProvisioning>

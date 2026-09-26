@@ -28,8 +28,7 @@ internal static class App
     private static AppOptions CreateAppOptions(AppOptionsContext context)
     {
         var appConfigs = VpnAppConfigs.Load();
-        var options = VpnAppOptions.Create(context, appConfigs, AppConstants.AppName, AppConstants.IsDebugMode);
-        options.LogServiceOptions.SingleLineConsole = false;
+        var options = VpnAppOptions.Create(context, appConfigs);
         // No store rules this build: a buyer may type a premium code in, or buy in your own shop.
         options.Premium = VpnAppOptions.CreatePremium(allowImportAccessCode: true, isPurchaseUrlSupported: true);
         options.AccountProvider = CreateAccountProvider(appConfigs, context);

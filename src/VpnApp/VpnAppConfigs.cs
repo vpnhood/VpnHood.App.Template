@@ -7,10 +7,6 @@ namespace VpnApp;
 // or fails where it is used.
 public class VpnAppConfigs : AppConfigs
 {
-    // Your name as the app's maker, for the words that name you ({companyName} in the consent
-    // summary and the other documents the UI shows).
-    public string? CompanyName { get; set; }
-
     // The look: "violet" or "blue", the two the UI knows. Left out, the UI's own default.
     public string? UiTheme { get; set; }
 

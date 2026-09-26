@@ -11,15 +11,15 @@ Linux. Everything VpnHood comes from NuGet: this repository holds only your app.
 
 Change what's in `app/`:
 
-1. **`app/app.props`**: your app's id base and name. Every build takes its ids from them (the
-   Android packages, the iOS bundles and App Group, the Windows and Linux ids), and the name it
-   shows. Choose the base before your first release: the stores and every install know your app by
-   these ids, so they can't change later.
+1. **`app/app.props`**: your app's id base and name, and your company. Every build takes its ids
+   from them (the Android packages, the iOS bundles and App Group, the Windows and Linux ids), and
+   the name it shows. Choose the base before your first release: the stores and every install know
+   your app by these ids, so they can't change later. `Company` is you as the app's maker, named in
+   the consent summary, the other documents the app shows and the executables' details.
 2. **`app/appsettings.json`**: your settings. A key you leave out, or set to `null`, is off.
 
    | Key | What it is |
    | --- | --- |
-   | `CompanyName` | Your name as the app's maker, used in the consent summary and the other documents the app shows. |
    | `UiTheme` | `violet` or `blue`. |
    | `DefaultAccessKey` | The access key of your server, the one the app connects to. A Debug build without one uses VpnHood's sample server. |
    | `PrivacyPolicyUrl`, `TermsOfUseUrl` | The links the app shows. |

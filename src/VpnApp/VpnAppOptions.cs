@@ -27,16 +27,16 @@ public static class VpnAppOptions
         AppFeature.SplitDomain
     ];
 
-    public static AppOptions Create(AppOptionsContext context, VpnAppConfigs appConfigs,
-        string appName, bool isDebugMode)
+    public static AppOptions Create(AppOptionsContext context, VpnAppConfigs appConfigs)
     {
-        var packagedAssets = context.PackagedAssets;
+        var packagedAssetProvider = context.PackagedAssetProvider;
         // your server's key; a Debug build without one starts with VpnHood's sample server
-        var defaultAccessKey = appConfigs.DefaultAccessKey ?? (isDebugMode ? ClientOptions.SampleAccessKey : null);
-        var options = new AppOptions(context, isDebugMode) {
-            AppName = appName,
-            CompanyName = appConfigs.CompanyName ??
-                          throw new InvalidOperationException("app/appsettings.json names no CompanyName."),
+        var defaultAccessKey = appConfigs.DefaultAccessKey ??
+                               (AppConstants.IsDebugMode ? ClientOptions.SampleAccessKey : null);
+        var options = new AppOptions(context, AppConstants.IsDebugMode) {
+            AppName = AppConstants.AppName,
+            PackageTitle = AppConstants.PackageTitle,
+            CompanyName = AppConstants.CompanyName,
             // The app's own, from app/branding: the consent summary names the app and its maker from
             // AppName and CompanyName.
             LogoAssetPath = "images/logo.png",
@@ -51,11 +51,15 @@ public static class VpnAppOptions
             Ga4MeasurementId = appConfigs.Ga4MeasurementId,
             RemoteSettingsUrl = appConfigs.RemoteSettingsUrl,
             AllowEndPointTracker = appConfigs.AllowEndPointTracker,
-            IpLocationZipAsset = new Asset(packagedAssets, "iplocations/IpLocations.zip"),
+            AllowEndPointStrategy = appConfigs.AllowEndPointStrategy,
+            IpLocationZipAsset = new Asset(packagedAssetProvider, "iplocations/IpLocations.zip"),
             // the app's own files (app/branding) first: each replaces the store's of the same path
-            UiZipAssets = [new Asset(packagedAssets, "assets/app.zip"), new Asset(packagedAssets, "assets/ui.zip")],
+            UiZipAssets = [
+                new Asset(packagedAssetProvider, "assets/app.zip"),
+                new Asset(packagedAssetProvider, "assets/ui.zip")
+            ],
             // the page a paired phone opens: this same UI, as its browser build
-            WebRootZipAsset = new Asset(packagedAssets, "assets/web-root.zip"),
+            WebRootZipAsset = new Asset(packagedAssetProvider, "assets/web-root.zip"),
             WebHostFactory = new VpnHoodAppWebHostFactory()
         };
 

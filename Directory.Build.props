@@ -1,6 +1,6 @@
 <Project>
 
-  <!-- Your app: its id base and its name, for every project below. -->
+  <!-- Your app: its id base, its name and its maker, for every project below. -->
   <Import Project="$(MSBuildThisFileDirectory)app/app.props" />
 
   <PropertyGroup>

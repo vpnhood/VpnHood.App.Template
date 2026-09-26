@@ -6,7 +6,7 @@
 		<!-- A plain target framework names no platform, so the project does. -->
 		<VhAppPlatform>linux</VhAppPlatform>
 		<!-- The binary, its service and their folders are called by the app's short name. -->
-		<AssemblyName>$(VhAppShortName)</AssemblyName>
+		<AssemblyName>$(VhAppPackageTitle)</AssemblyName>
 		<!-- Your website hands this build out, and its id says so (….linux.web). -->
 		<VhAppIdChannel>web</VhAppIdChannel>
 	</PropertyGroup>

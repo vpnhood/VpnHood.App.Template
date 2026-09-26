@@ -19,9 +19,9 @@ namespace VpnApp.Ios.Apple;
 public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
 {
     // The platform builds the device from the App Group and the extension's bundle id.
-    protected override IosStartParams CreateStartParams()
+    protected override IosInitParams CreateInitParams()
     {
-        return new IosStartParams {
+        return new IosInitParams {
             // the bundle's own id, which the build took from app/app.props
             AppId = NSBundle.MainBundle.BundleIdentifier ??
                     throw new InvalidOperationException("The app's bundle has no identifier."),
@@ -36,7 +36,7 @@ public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
     private static AppOptions CreateAppOptions(AppOptionsContext context)
     {
         var appConfigs = VpnAppConfigs.Load();
-        var options = VpnAppOptions.Create(context, appConfigs, AppConstants.AppName, AppConstants.IsDebugMode);
+        var options = VpnAppOptions.Create(context, appConfigs);
 
         // Apple holds a VPN app to more than other apps: nothing about its use goes to a third party,
         // so this build sends no analytics whatever the settings say.
@@ -52,8 +52,6 @@ public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
         // The premium tier stays as VpnAppOptions makes it: the App Store forbids unlocking with a
         // code typed in, and steering a buyer to your own shop.
         options.AccountProvider = CreateAccountProvider(appConfigs, context);
-        // the UI pads itself to the safe areas the platform reports
-        options.AdjustForSystemBars = false;
         // "Designed for iPad" on a Mac runs the extension without iOS's memory cap, yet reports iOS:
         // only Foundation tells it apart.
         options.Transport = NSProcessInfo.ProcessInfo.IsiOSApplicationOnMac
