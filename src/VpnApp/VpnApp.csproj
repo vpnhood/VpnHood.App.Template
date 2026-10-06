@@ -18,7 +18,7 @@
 		<PackageReference Include="VpnHood.AppLib.App" Version="$(VpnHoodVersion)" />
 		<PackageReference Include="VpnHood.AppLib.Api.WebHost" Version="$(VpnHoodVersion)" />
 		<!-- The IP-location database the app looks countries up in. -->
-		<PackageReference Include="VpnHood.Net.IpLocations.Assets.Ip2LocationLite" Version="8.2.854" />
+		<PackageReference Include="VpnHood.Net.IpLocations.Assets.Ip2LocationLite" Version="8.2.858" />
 	</ItemGroup>
 
 </Project>
