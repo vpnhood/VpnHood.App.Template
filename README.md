@@ -16,6 +16,11 @@ Change what's in `app/`:
    the name it shows. Choose the base before your first release: the stores and every install know
    your app by these ids, so they can't change later. `Company` is you as the app's maker, named in
    the consent summary, the other documents the app shows and the executables' details.
+
+   The iOS network extension builds its bundle id, its name and the App Group from these values in
+   its own project (`src/VpnApp.Ios.Extension`). Leave those lines as they are: iOS accepts the
+   extension only under an id that starts with the app's, and the app and the extension share their
+   data only through that one App Group.
 2. **`app/appsettings.json`**: your settings. A key you leave out, or set to `null`, is off.
 
    | Key | What it is |

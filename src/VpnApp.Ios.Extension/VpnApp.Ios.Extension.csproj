@@ -8,7 +8,10 @@
     <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
     <AssemblyName>VpnAppExtension</AssemblyName>
     <!-- Its bundle id and name follow the app's (app/app.props). The app's own ids come from the
-         VpnHood app package, which the extension does not take, so it states its two here. -->
+         VpnHood app package, which the extension does not take, so it states its two here, and the
+         App Group below, by the same rule. Leave all three as they are: iOS accepts an extension
+         only under an id that starts with its app's, and the two share data only through that
+         App Group. -->
     <ApplicationId>$(VhAppIdBase).ios.networkextension</ApplicationId>
     <ApplicationTitle>$(VhAppName) Extension</ApplicationTitle>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
