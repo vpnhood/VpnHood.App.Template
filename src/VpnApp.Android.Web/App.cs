@@ -27,7 +27,7 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
     {
         return new AppInitParams {
             AppId = PackageName ?? throw new InvalidOperationException("The app has no package name."),
-            StorageFolderName = "app",
+            StorageFolderName = "app", // Resources/xml/backup_rules.xml and data_extraction_rules.xml name it
             AppOptionsFactory = CreateAppOptions
         };
     }
