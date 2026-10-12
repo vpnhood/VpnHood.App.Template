@@ -48,7 +48,10 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
         // a buyer out of the store.
         options.Premium = VpnAppOptions.CreatePremium(allowImportAccessCode: true, isPurchaseUrlSupported: false);
         options.UpdaterOptions = new AppUpdaterOptions {
-            UpdaterProvider = new GooglePlayAppUpdaterProvider()
+            UpdaterProvider = new GooglePlayAppUpdaterProvider(),
+            // Play says "update available" only once it has reached Google, so its screen comes at
+            // once: where Play is reachable only through the tunnel, its own update may never run
+            PromptDelay = TimeSpan.Zero
         };
         return options;
     }
