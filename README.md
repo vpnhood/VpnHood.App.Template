@@ -1,8 +1,8 @@
 # VpnHood App Template
 
 > [!WARNING]
-> **Under construction.** This template isn't ready for use yet. It builds only against VpnHood
-> packages that haven't been published, and any part of it may still change.
+> **Under construction.** This template isn't ready for use yet, and any part of it may still
+> change.
 
 Your own VPN app on VpnHood, for Android (Google Play and your website), iOS (App Store), Windows and
 Linux. Everything VpnHood comes from NuGet: this repository holds only your app.
@@ -11,27 +11,38 @@ Linux. Everything VpnHood comes from NuGet: this repository holds only your app.
 
 Change what's in `app/`:
 
-1. **`app/app.props`**: your app's id base and name, and your company. Every build takes its ids
-   from them (the Android packages, the iOS bundles and App Group, the Windows and Linux ids), and
-   the name it shows. Choose the base before your first release: the stores and every install know
-   your app by these ids, so they can't change later. `Company` is you as the app's maker, named in
-   the consent summary, the other documents the app shows and the executables' details.
+1. **`app/app.props`**: your app's id base and name, your company, and its version. Every build
+   takes its ids from them (the Android packages, the iOS bundles and App Group, the Windows and
+   Linux ids), and the name it shows. Choose the base before your first release: the stores and
+   every install know your app by these ids, so they can't change later. `Company` is you as the
+   app's maker, named in the consent summary, the other documents the app shows and the
+   executables' details.
 
-   The iOS network extension builds its bundle id, its name and the App Group from these values in
-   its own project (`src/VpnApp.Ios.Extension`). Leave those lines as they are: iOS accepts the
-   extension only under an id that starts with the app's, and the app and the extension share their
-   data only through that one App Group.
+   `Version` is three numbers, and its third counts your releases: 1 for the first, as it stands,
+   and one more for each after it, committed with the release. Never set it back, even when you raise the first two
+   (1.0.7, then 1.1.8): it's Android's version code and iOS's build number, which the stores take
+   only higher, and a phone installs no update from your website with a lower one.
+
+   The iOS network extension builds its bundle id, its name, its versions and the App Group from
+   these values in its own project (`src/VpnApp.Ios.Extension`). Leave those lines as they are: iOS
+   accepts the extension only under an id that starts with the app's, App Store Connect wants its
+   versions to be the app's, and the app and the extension share their data only through that one
+   App Group.
 2. **`app/appsettings.json`**: your settings. A key you leave out, or set to `null`, is off.
 
    | Key | What it is |
    | --- | --- |
    | `UiTheme` | `violet` or `blue`. |
    | `DefaultAccessKey` | The access key of your server, the one the app connects to. A Debug build without one uses VpnHood's sample server. |
-   | `PrivacyPolicyUrl`, `TermsOfUseUrl` | The links the app shows. |
+   | `Links` | The pages the app links to: `PrivacyPolicy` and `TermsOfUse` (the paywall, Settings > Privacy and the first run), and the menu's `Website`, `WhatsNew`, `Feedback`, `LinkedIn`, `Instagram` and `X`. A link left out isn't shown. The App Store build shows Apple's standard EULA as its terms until you register your own. |
+   | `ShowPoweredBy` | The menu's "Powered by VpnHood! ENGINE"; `false` hides it. |
+   | `WebUiPort` | The port of the app's local web host, which a paired phone's address names; two apps on one device need two. Left out, 9090, and 9091 in a Debug build. |
    | `PortalBaseUri` | Your portal, for sign-in, plans and purchases. Without it the app has no accounts. |
    | `GoogleSignInClientId` | Google sign-in on the Play build; required once `PortalBaseUri` is set. |
    | `RemoteSettingsUrl` | Settings the app fetches while it runs. |
    | `Ga4MeasurementId`, `AllowEndPointTracker` | Analytics, off unless set. The iOS build never sends any. |
+   | `UpdateInfoBaseUrl` | Where the website APK's update feeds are ([Publish the website build](#publish-the-website-build)). Left out, that build hears of no update. |
+   | `WebReleaseCertificateSha256` | The SHA-256 of the certificate your website APK is signed with, in hex (`apksigner verify --print-certs` shows it). The app downloads and installs its update only over a copy signed with it; left out, a Release build shows the update's link instead. |
 
    An `appsettings.Debug.json` or `appsettings.Release.json` beside it overrides the keys it names,
    in that configuration only.
@@ -68,8 +79,26 @@ For example, `dotnet build src/VpnApp.Windows.Web`.
 
 To take a newer VpnHood, raise `VpnHoodVersion` in `Directory.Build.props`.
 
+## Publish the website build
+
+A publish signs the website APK and, once `UpdateInfoBaseUrl` is set, writes its update feed beside
+it, in the project's `publish` folder. Each release takes two:
+
+```shell
+dotnet publish src/VpnApp.Android.Web -c Release <signing>
+dotnet publish src/VpnApp.Android.Web -c Release -p:VpnAppArm64Apk=true <signing>
+```
+
+The first makes `<title>-android-web.apk`, for every phone, and its feed `<title>-android-web.json`;
+the second the arm64 APK, a third the size, and `<title>-android-web-arm64.json`. Put all four at
+`UpdateInfoBaseUrl` with every release: a phone with an arm64 processor, which most are, reads only
+the arm64 feed, and any other only the universal one. `<signing>` names your keystore
+(`-p:AndroidKeyStore=true -p:AndroidSigningKeyStore=… -p:AndroidSigningKeyAlias=…
+-p:AndroidSigningStorePass=… -p:AndroidSigningKeyPass=…`). Sign every release with the same key:
+Android installs an update only over a copy signed with it.
+
 ## Not in the template yet
 
 - Ads, crash reports, and install attribution.
-- Update feeds for the website builds, installers, and publishing to the stores.
+- The Windows and Linux builds' installers and update feeds, and publishing to the stores.
 - The Avalonia UI's browser build: the page a phone opens when it's paired with a TV.

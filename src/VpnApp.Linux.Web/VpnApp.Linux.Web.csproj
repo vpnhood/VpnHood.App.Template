@@ -15,7 +15,7 @@
 		<ProjectReference Include="../VpnApp/VpnApp.csproj" />
 		<!-- Linux as the app runs on it: the service, the window and the commands. -->
 		<PackageReference Include="VpnHood.AppLib.App.Linux" Version="$(VpnHoodVersion)" />
-		<PackageReference Include="VpnHood.AppUi.Hosting.Cli.Linux" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Hosting.Desktop.Linux" Version="$(VpnHoodVersion)" />
 		<!-- The UI, in its own window: the host, the pages and the files they draw. -->
 		<PackageReference Include="VpnHood.AppUi.Hosting.Avalonia.Desktop" Version="$(VpnHoodVersion)" />
 		<PackageReference Include="VpnHood.AppUi.Presentation.Classic.Avalonia" Version="$(VpnHoodVersion)" />

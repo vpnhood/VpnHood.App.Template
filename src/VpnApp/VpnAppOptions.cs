@@ -3,6 +3,7 @@ using VpnHood.AppLib.Api.Premium;
 using VpnHood.AppLib.Api.WebHost;
 using VpnHood.AppLib.App;
 using VpnHood.Core.Client.Abstractions;
+using VpnHood.Core.Client.VpnServices.Abstractions.Tracking;
 using VpnHood.Net.Toolkit.Assets;
 
 namespace VpnApp;
@@ -33,25 +34,26 @@ public static class VpnAppOptions
         // your server's key; a Debug build without one starts with VpnHood's sample server
         var defaultAccessKey = appConfigs.DefaultAccessKey ??
                                (AppConstants.IsDebugMode ? ClientOptions.SampleAccessKey : null);
-        var options = new AppOptions(context, AppConstants.IsDebugMode) {
-            AppName = AppConstants.AppName,
+        return new AppOptions(context, AppConstants.IsDebugMode) {
             PackageTitle = AppConstants.PackageTitle,
             CompanyName = AppConstants.CompanyName,
             // The app's own, from app/branding: the consent summary names the app and its maker from
-            // AppName and CompanyName.
+            // the app's name and CompanyName.
             LogoAssetPath = "images/logo.png",
             PrivacyConsentAssetName = "privacy-consent",
-            PrivacyPolicyUrl = appConfigs.PrivacyPolicyUrl,
-            TermsOfUseUrl = appConfigs.TermsOfUseUrl,
+            Links = appConfigs.Links,
+            ShowPoweredBy = appConfigs.ShowPoweredBy,
+            UiTheme = appConfigs.UiTheme,
             // an empty key would not parse
             AccessKeys = string.IsNullOrEmpty(defaultAccessKey) ? [] : [defaultAccessKey],
             IsAddAccessKeySupported = IsAddAccessKeySupported,
             AllowRecommendUserReviewByServer = true,
             Premium = CreatePremium(allowImportAccessCode: false, isPurchaseUrlSupported: false),
-            Ga4MeasurementId = appConfigs.Ga4MeasurementId,
+            TrackerFactories = [new Ga4TrackerFactory { MeasurementId = appConfigs.Ga4MeasurementId }],
             RemoteSettingsUrl = appConfigs.RemoteSettingsUrl,
             AllowEndPointTracker = appConfigs.AllowEndPointTracker,
             AllowEndPointStrategy = appConfigs.AllowEndPointStrategy,
+            WebUiPort = appConfigs.WebUiPort,
             IpLocationZipAsset = new Asset(packagedAssetProvider, "iplocations/IpLocations.zip"),
             // the app's own files (app/branding) first: each replaces the store's of the same path
             UiZipAssets = [
@@ -62,11 +64,6 @@ public static class VpnAppOptions
             WebRootZipAsset = new Asset(packagedAssetProvider, "assets/web-root.zip"),
             WebHostFactory = new VpnHoodAppWebHostFactory()
         };
-
-        if (appConfigs.UiTheme is { } uiTheme)
-            options.UiTheme = uiTheme;
-
-        return options;
     }
 
     // The premium tier, with the two things only a store's rules decide: typing a premium code in,

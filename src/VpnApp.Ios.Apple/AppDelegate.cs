@@ -9,7 +9,6 @@ using VpnHood.AppLib.Stores.AppStore;
 using VpnHood.AppUi.Hosting.Avalonia.Ios;
 using VpnHood.AppUi.Presentation.Classic.Avalonia;
 using VpnHood.Core.Client.Abstractions;
-using VpnHood.Core.Client.VpnServices.Abstractions.Tracking;
 using VpnHood.Net.Toolkit.Logging;
 
 namespace VpnApp.Ios.Apple;
@@ -25,6 +24,8 @@ public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
             // the bundle's own id, which the build took from app/app.props
             AppId = NSBundle.MainBundle.BundleIdentifier ??
                     throw new InvalidOperationException("The app's bundle has no identifier."),
+            AppName = AppConstants.AppName,
+            AppVersion = Version.Parse(AppConstants.AppVersion),
             StorageFolderName = "app",
             AppGroupId = AppConstants.AppGroupId,
             ProviderBundleId = AppConstants.ProviderBundleId,
@@ -40,12 +41,13 @@ public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
 
         // Apple holds a VPN app to more than other apps: nothing about its use goes to a third party,
         // so this build sends no analytics whatever the settings say.
-        options.Ga4MeasurementId = null;
-        options.TrackerFactory = new NullTrackerFactory();
+        options.TrackerFactories = [];
         options.AllowEndPointTracker = false;
         // A purchase here is governed by Apple's standard EULA until you register your own in App
-        // Store Connect; then name yours in the settings and delete this line.
-        options.TermsOfUseUrl = new Uri("https://www.apple.com/legal/internet-services/itunes/dev/stdeula/");
+        // Store Connect; then name yours in the settings (Links.TermsOfUse) and delete these lines.
+        options.Links = options.Links with {
+            TermsOfUse = new Uri("https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")
+        };
         // the store took the person's acceptance at install
         options.IsLicenseAgreementRequired = false;
         options.UserReviewProvider = new AppStoreInAppUserReviewProvider();
@@ -62,7 +64,7 @@ public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
         };
         // Updates come from the App Store: the provider finds the released version by bundle id.
         options.UpdaterOptions = new AppUpdaterOptions {
-            UpdaterProvider = new AppStoreAppUpdaterProvider()
+            UpdaterProvider = new AppStoreAppUpdaterProvider(options.AppVersion)
         };
         return options;
     }

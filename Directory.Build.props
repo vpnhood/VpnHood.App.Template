@@ -1,6 +1,6 @@
 <Project>
 
-  <!-- Your app: its id base, its name and its maker, for every project below. -->
+  <!-- Your app: its id base, its name, its maker and its version, for every project below. -->
   <Import Project="$(MSBuildThisFileDirectory)app/app.props" />
 
   <PropertyGroup>
@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <!-- The VpnHood packages, one version for all of them: raise it to upgrade. -->
-    <VpnHoodVersion>8.2.854-local</VpnHoodVersion>
+    <VpnHoodVersion>9.0.856</VpnHoodVersion>
   </PropertyGroup>
 
   <!-- Packages of a VpnHood not yet released, to try the template against before they are: a

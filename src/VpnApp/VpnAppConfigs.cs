@@ -7,15 +7,17 @@ namespace VpnApp;
 // or fails where it is used.
 public class VpnAppConfigs : AppConfigs
 {
-    // The look: "violet" or "blue", the two the UI knows. Left out, the UI's own default.
-    public string? UiTheme { get; set; }
-
     // Your portal: sign-in, plans and purchases. Left out, the app has no account at all.
     public Uri? PortalBaseUri { get; set; }
 
     // Google sign-in on the Play build: the OAuth client id Google issued for your package and your
     // signing key. The Play build needs it once the portal is set.
     public string? GoogleSignInClientId { get; set; }
+
+    // The SHA-256 of the certificate your website's APK is signed with, in hex: that build downloads
+    // and installs its update only over a copy signed with it, as Android refuses any other. Left
+    // out, a Release build keeps the update's link instead.
+    public string? WebReleaseCertificateSha256 { get; set; }
 
     // The settings as this project embeds them, for every build.
     public static VpnAppConfigs Load() => AppConfigsLoader.Load<VpnAppConfigs>();

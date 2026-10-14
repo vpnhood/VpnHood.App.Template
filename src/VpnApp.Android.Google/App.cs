@@ -30,6 +30,8 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
     {
         return new AppInitParams {
             AppId = PackageName ?? throw new InvalidOperationException("The app has no package name."),
+            AppName = AppConstants.AppName,
+            AppVersion = Version.Parse(AppConstants.AppVersion),
             StorageFolderName = "app", // Resources/xml/backup_rules.xml and data_extraction_rules.xml name it
             AppOptionsFactory = CreateAppOptions
         };
@@ -49,9 +51,9 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
         options.Premium = VpnAppOptions.CreatePremium(allowImportAccessCode: true, isPurchaseUrlSupported: false);
         options.UpdaterOptions = new AppUpdaterOptions {
             UpdaterProvider = new GooglePlayAppUpdaterProvider(),
-            // Play says "update available" only once it has reached Google, so its screen comes at
-            // once: where Play is reachable only through the tunnel, its own update may never run
-            PromptDelay = TimeSpan.Zero
+            // Play's own update gets its chance first: its screen comes once this phone's Play has
+            // known the update for 3 days, counted by Play itself
+            PromptDelay = TimeSpan.FromDays(3)
         };
         return options;
     }

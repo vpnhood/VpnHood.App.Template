@@ -16,10 +16,17 @@
        <VhAppPackageTitle>YourName</VhAppPackageTitle> below - also before your first release.
 
        Company is you, as the app's maker: the consent summary and the other documents the app shows
-       name you by it, and so do the executables' details, with a copyright made from it. -->
+       name you by it, and so do the executables' details, with a copyright made from it.
+
+       Version is your app's version, in three numbers, which the app shows and compares its updates
+       with. Its third number counts your releases: 1 for the first, as it stands, and one more for each after it,
+       committed with the release. Never set it back, even when you raise the first two (1.0.7, then
+       1.1.8): it is Android's version code and iOS's build number, which a store takes only higher,
+       and a phone installs no update from your website with a lower one. -->
   <PropertyGroup>
     <VhAppIdBase>com.example.myvpn</VhAppIdBase>
     <VhAppName>My VPN</VhAppName>
     <Company>My Company</Company>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 </Project>

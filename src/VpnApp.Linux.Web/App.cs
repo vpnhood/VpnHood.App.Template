@@ -3,8 +3,8 @@ using VpnHood.AppLib.Abstractions.Accounts;
 using VpnHood.AppLib.App;
 using VpnHood.AppLib.Portal;
 using VpnHood.AppUi.Hosting.Avalonia.Desktop;
-using VpnHood.AppUi.Hosting.Cli;
-using VpnHood.AppUi.Hosting.Cli.Linux;
+using VpnHood.AppUi.Hosting.Desktop;
+using VpnHood.AppUi.Hosting.Desktop.Linux;
 using VpnHood.AppUi.Presentation.Classic.Avalonia;
 using VpnHood.Net.Toolkit.Logging;
 
@@ -16,11 +16,13 @@ internal static class App
 {
     private static int Main(string[] args)
     {
-        return LinuxCliHost.Run(args, new CliInitParams {
+        return LinuxDesktopHost.Run(args, new DesktopInitParams {
             AppId = AppConstants.AppId,
+            AppName = AppConstants.AppName,
+            AppVersion = Version.Parse(AppConstants.AppVersion),
             AppOptionsFactory = CreateAppOptions,
             IsAddAccessKeySupported = VpnAppOptions.IsAddAccessKeySupported,
-            Ui = new AvaloniaDesktopHost<ClassicAvaloniaApp>()
+            Ui = new AvaloniaDesktopUi<ClassicAvaloniaApp>()
         });
     }
 

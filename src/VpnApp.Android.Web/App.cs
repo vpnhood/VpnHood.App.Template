@@ -3,7 +3,9 @@ using Microsoft.Extensions.Logging;
 using VpnHood.AppLib.Abstractions.Accounts;
 using VpnHood.AppLib.App;
 using VpnHood.AppLib.App.Android.Constants;
+using VpnHood.AppLib.App.Services.Updaters;
 using VpnHood.AppLib.Portal;
+using VpnHood.AppLib.Stores.AndroidWeb;
 using VpnHood.AppUi.Hosting.Avalonia.Android;
 using VpnHood.AppUi.Presentation.Classic.Avalonia;
 using VpnHood.Net.Toolkit.Logging;
@@ -27,6 +29,8 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
     {
         return new AppInitParams {
             AppId = PackageName ?? throw new InvalidOperationException("The app has no package name."),
+            AppName = AppConstants.AppName,
+            AppVersion = Version.Parse(AppConstants.AppVersion),
             StorageFolderName = "app", // Resources/xml/backup_rules.xml and data_extraction_rules.xml name it
             AppOptionsFactory = CreateAppOptions
         };
@@ -40,8 +44,30 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
         // No store rules this build: a buyer may type a premium code in, or buy in your own shop.
         options.Premium = VpnAppOptions.CreatePremium(allowImportAccessCode: true, isPurchaseUrlSupported: true);
         options.AccountProvider = CreateAccountProvider(appConfigs, context);
+        options.UpdaterOptions = CreateUpdaterOptions(appConfigs);
         return options;
     }
+
+    // Your website's updates: the feed under UpdateInfoBaseUrl for this phone's processor, whose
+    // newer version the notice downloads and installs. Without UpdateInfoBaseUrl the app hears of no
+    // update.
+    private static AppUpdaterOptions CreateUpdaterOptions(VpnAppConfigs appConfigs)
+    {
+        var updateInfoUrl = appConfigs.GetUpdateInfoUrl(AppConstants.PackageTitle,
+            AndroidWebAppUpdaterProvider.FeedDistribution);
+        return new AppUpdaterOptions {
+            UpdateInfoUrl = updateInfoUrl,
+            UpdaterProvider = updateInfoUrl is null ? null : TryCreateUpdaterProvider(appConfigs)
+        };
+    }
+
+    // Only over a copy signed with your key, and none over a store's install: their notice keeps the
+    // feed's link. A Debug build is signed with the machine's own key, so it takes any; a Release
+    // build that names no key keeps the link.
+    private static AndroidWebAppUpdaterProvider? TryCreateUpdaterProvider(VpnAppConfigs appConfigs) =>
+        AppConstants.IsDebugMode || appConfigs.WebReleaseCertificateSha256 is not null
+            ? AndroidWebAppUpdaterProvider.TryCreate(AppConstants.IsDebugMode ? null : appConfigs.WebReleaseCertificateSha256)
+            : null;
 
     private static IAccountProvider? CreateAccountProvider(VpnAppConfigs appConfigs, AppOptionsContext context)
     {

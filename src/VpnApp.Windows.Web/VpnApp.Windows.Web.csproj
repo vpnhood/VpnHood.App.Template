@@ -16,7 +16,7 @@
 	<ItemGroup>
 		<ProjectReference Include="../VpnApp/VpnApp.csproj" />
 		<!-- Windows as the app runs on it: the service, the window and its tray, the commands. -->
-		<PackageReference Include="VpnHood.AppUi.Hosting.Cli.Windows" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Hosting.Desktop.Windows" Version="$(VpnHoodVersion)" />
 		<!-- The UI, in its own window: the host, the pages and the files they draw. -->
 		<PackageReference Include="VpnHood.AppUi.Hosting.Avalonia.Desktop" Version="$(VpnHoodVersion)" />
 		<PackageReference Include="VpnHood.AppUi.Presentation.Classic.Avalonia" Version="$(VpnHoodVersion)" />

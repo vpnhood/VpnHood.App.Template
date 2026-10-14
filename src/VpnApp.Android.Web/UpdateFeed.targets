@@ -1,0 +1,76 @@
+<Project>
+
+  <!-- The update feed this build reads, written by a publish beside its APK: <title>-android-web.json
+       for the universal APK, <title>-android-web-arm64.json for the arm64 one (-p:VpnAppArm64Apk=true),
+       each naming its APK, renamed to match, under app/appsettings.json's UpdateInfoBaseUrl. Upload
+       both pairs there with every release: a phone reads only its own processor's feed
+       (AndroidWebAppUpdaterProvider.FeedDistribution). Without UpdateInfoBaseUrl, no feed. -->
+  <PropertyGroup>
+    <VpnAppFeedDistribution>android-web</VpnAppFeedDistribution>
+    <VpnAppFeedDistribution Condition="'$(VpnAppArm64Apk)' == 'true'">android-web-arm64</VpnAppFeedDistribution>
+  </PropertyGroup>
+
+  <UsingTask TaskName="VpnAppWriteUpdateFeed" TaskFactory="RoslynCodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <SettingsFiles ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <ApkFile ParameterType="System.String" Required="true" />
+      <OutputDir ParameterType="System.String" Required="true" />
+      <FileTitle ParameterType="System.String" Required="true" />
+      <Version ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <!-- The one key it reads and the five it writes take no JSON library: an inline task compiles
+         against .NET Standard, which has none. -->
+    <Task>
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        // as the app reads them: appsettings.json, then its configuration's file over it
+        string baseUrl = null;
+        var keyPattern = new Regex("\"UpdateInfoBaseUrl\"\\s*:\\s*(?:null|\"([^\"]*)\")");
+        foreach (var settingsFile in SettingsFiles) {
+            var match = keyPattern.Match(File.ReadAllText(settingsFile.ItemSpec));
+            if (match.Success)
+                baseUrl = match.Groups[1].Success ? match.Groups[1].Value : null;
+        }
+
+        if (string.IsNullOrEmpty(baseUrl)) {
+            Log.LogMessage(MessageImportance.High, "No update feed: app/appsettings.json names no UpdateInfoBaseUrl.");
+            return true;
+        }
+
+        // the app compares it with its own as a version of numbers
+        if (!System.Version.TryParse(Version, out _)) {
+            Log.LogError($"The update feed needs a version of numbers only, such as 1.2.3; this build's is '{Version}'.");
+            return false;
+        }
+
+        baseUrl = baseUrl.TrimEnd('/');
+        File.Copy(ApkFile, Path.Combine(OutputDir, FileTitle + ".apk"), overwrite: true);
+        string Pair(string name, string value) =>
+            $"  \"{name}\": \"{value.Replace("\\", "\\\\").Replace("\"", "\\\"")}\"";
+        var feedFile = Path.Combine(OutputDir, FileTitle + ".json");
+        File.WriteAllText(feedFile, "{\n" + string.Join(",\n",
+            Pair("Version", Version),
+            Pair("UpdateInfoUrl", $"{baseUrl}/{FileTitle}.json"),
+            Pair("PackageUrl", $"{baseUrl}/{FileTitle}.apk"),
+            Pair("InstallationPageUrl", $"{baseUrl}/{FileTitle}.apk"),
+            Pair("ReleaseDate", DateTime.UtcNow.ToString("o"))) + "\n}\n");
+        Log.LogMessage(MessageImportance.High, $"Update feed: {feedFile}, naming {FileTitle}.apk beside it");
+        ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="VpnAppWriteUpdateFeed" AfterTargets="Publish">
+    <ItemGroup>
+      <_VpnAppSettingsFile Include="$(MSBuildThisFileDirectory)../../app/appsettings.json" />
+      <_VpnAppSettingsFile Include="$(MSBuildThisFileDirectory)../../app/appsettings.$(Configuration).json"
+                           Condition="Exists('$(MSBuildThisFileDirectory)../../app/appsettings.$(Configuration).json')" />
+      <_VpnAppSignedApk Include="$(PublishDir)*-Signed.apk" />
+    </ItemGroup>
+    <Error Condition="'@(_VpnAppSignedApk->Count())' != '1'"
+           Text="The update feed names one signed APK, and $(PublishDir) holds @(_VpnAppSignedApk->Count())." />
+    <VpnAppWriteUpdateFeed SettingsFiles="@(_VpnAppSettingsFile)" ApkFile="@(_VpnAppSignedApk)" OutputDir="$(PublishDir)"
+                           FileTitle="$(VhAppPackageTitle)-$(VpnAppFeedDistribution)" Version="$(ApplicationDisplayVersion)" />
+  </Target>
+
+</Project>

@@ -7,6 +7,8 @@
 		<!-- Your website hands this build out, and its id says so (….android.web), apart from the
 		     Play build's. -->
 		<VhAppIdChannel>web</VhAppIdChannel>
+		<!-- A website hands out an APK, never Play's bundle. -->
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -20,6 +22,14 @@
 		<RunAOTCompilation>True</RunAOTCompilation>
 	</PropertyGroup>
 
+	<!-- -p:VpnAppArm64Apk=true: the arm64 APK, a third the size, which arm64 phones update from. -->
+	<PropertyGroup Condition="'$(VpnAppArm64Apk)'=='true'">
+		<RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
+	</PropertyGroup>
+
+	<!-- A publish writes the update feed beside the APK. -->
+	<Import Project="UpdateFeed.targets" />
+
 	<ItemGroup>
 		<ProjectReference Include="../VpnApp/VpnApp.csproj" />
 		<!-- Android as the app runs on it: the VPN service, the device, the tile. -->
@@ -30,5 +40,8 @@
 		<PackageReference Include="VpnHood.AppUi.Assets.Classic" Version="$(VpnHoodVersion)" />
 		<!-- Sign-in and purchases on your portal. -->
 		<PackageReference Include="VpnHood.AppLib.Portal" Version="$(VpnHoodVersion)" />
+		<!-- The app downloads and installs its own update: never in a store's build, as it asks for
+		     REQUEST_INSTALL_PACKAGES, which Google Play forbids for an app's own updates. -->
+		<PackageReference Include="VpnHood.AppLib.Stores.AndroidWeb" Version="$(VpnHoodVersion)" />
 	</ItemGroup>
 </Project>
