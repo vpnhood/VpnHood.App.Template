@@ -43,10 +43,11 @@ public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
         // so this build sends no analytics whatever the settings say.
         options.TrackerFactories = [];
         options.AllowEndPointTracker = false;
-        // A purchase here is governed by Apple's standard EULA until you register your own in App
-        // Store Connect; then name yours in the settings (Links.TermsOfUse) and delete these lines.
+        // A purchase here is governed by the terms App Store Connect names: your own (Links.TermsOfUse),
+        // once registered there as the app's EULA, else Apple's standard one.
         options.Links = options.Links with {
-            TermsOfUse = new Uri("https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")
+            TermsOfUse = options.Links.TermsOfUse ??
+                         new Uri("https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")
         };
         // the store took the person's acceptance at install
         options.IsLicenseAgreementRequired = false;
