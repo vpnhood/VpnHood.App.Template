@@ -34,7 +34,7 @@ Change what's in `app/`:
    | --- | --- |
    | `UiTheme` | `violet` or `blue`. |
    | `DefaultAccessKey` | The access key of your server, the one the app connects to. A Debug build without one uses VpnHood's sample server. |
-   | `Links` | The pages the app links to: `PrivacyPolicy` and `TermsOfUse` (the paywall, Settings > Privacy and the first run), and the menu's `Website`, `WhatsNew`, `Feedback`, `LinkedIn`, `Instagram` and `X`. A link left out isn't shown. Without `TermsOfUse`, the App Store build links Apple's standard EULA; with it, register the same terms as the app's EULA in App Store Connect. |
+   | `Links` | The pages the app links to: `PrivacyPolicy` and `TermsOfUse` (the paywall, Settings > Privacy and the first run), and the menu's `Website`, `WhatsNew`, `Feedback`, `LinkedIn`, `Instagram` and `X`. A link left out isn't shown. Without `TermsOfUse`, the App Store build links Apple's standard EULA; your terms, once set, have to name that EULA as the licence of a copy from the App Store, or be registered in App Store Connect as the app's own. |
    | `ShowPoweredBy` | The menu's "Powered by VpnHood! ENGINE"; `false` hides it. |
    | `WebUiPort` | The port of the app's local web host, which a paired phone's address names; two apps on one device need two. Left out, 9090, and 9091 in a Debug build. |
    | `PortalBaseUri` | Your portal, for sign-in, plans and purchases. Without it the app has no accounts. |
