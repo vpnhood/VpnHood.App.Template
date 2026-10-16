@@ -7,8 +7,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-    <!-- The VpnHood packages, one version for all of them: raise it to upgrade. -->
-    <VpnHoodVersion>9.0.856</VpnHoodVersion>
+    <!-- The VpnHood packages, one version for all of them: the one this template is made with,
+         unless app/app.props names another. -->
+    <VpnHoodVersion Condition="'$(VpnHoodVersion)' == ''">9.0.856</VpnHoodVersion>
   </PropertyGroup>
 
   <!-- Packages of a VpnHood not yet released, to try the template against before they are: a

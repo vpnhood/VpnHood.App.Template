@@ -77,7 +77,8 @@ Then replace the icons, which are neutral placeholders, with yours:
 
 For example, `dotnet build src/VpnApp.Windows.Web`.
 
-To take a newer VpnHood, raise `VpnHoodVersion` in `Directory.Build.props`.
+The VpnHood packages come at the version this template names. To take another, a newer VpnHood for
+example, add `<VpnHoodVersion>9.0.900</VpnHoodVersion>` to `app/app.props`, with the version you want.
 
 ## Publish the website build
 

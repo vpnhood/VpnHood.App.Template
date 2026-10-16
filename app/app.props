@@ -22,7 +22,10 @@
        with. Its third number counts your releases: 1 for the first, as it stands, and one more for each after it,
        committed with the release. Never set it back, even when you raise the first two (1.0.7, then
        1.1.8): it is Android's version code and iOS's build number, which a store takes only higher,
-       and a phone installs no update from your website with a lower one. -->
+       and a phone installs no update from your website with a lower one.
+
+       The VpnHood packages come at the version this template names. To take another, a newer VpnHood
+       for example, add <VpnHoodVersion>9.0.900</VpnHoodVersion> below, with the version you want. -->
   <PropertyGroup>
     <VhAppIdBase>com.example.myvpn</VhAppIdBase>
     <VhAppName>My VPN</VhAppName>
