@@ -7,6 +7,12 @@
     <File Path="app/branding/images/logo.png" />
     <File Path="app/branding/content/en/privacy-consent.md" />
   </Folder>
+  <Folder Name="/app/icons/">
+    <File Path="app/icons/banner.svg" />
+    <File Path="app/icons/icon_background.svg" />
+    <File Path="app/icons/icon_foreground.svg" />
+    <File Path="app/icons/icon_monochrome.svg" />
+  </Folder>
   <Folder Name="/build/">
     <File Path="README.md" />
     <File Path="Directory.Build.props" />

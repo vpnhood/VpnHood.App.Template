@@ -9,7 +9,7 @@
 	     assembly. A Debug or Release file beside them (appsettings.Debug.json) overrides what it
 	     names, for that configuration only. -->
 	<ItemGroup>
-		<EmbeddedResource Include="../../app/appsettings.json" LogicalName="AppSettings.json" />
+		<EmbeddedResource Include="$(VhAppSettingsFile)" LogicalName="AppSettings.json" />
 		<EmbeddedResource Include="../../app/appsettings.$(Configuration).json" LogicalName="AppSettings_Environment.json"
 			Condition="Exists('../../app/appsettings.$(Configuration).json')" />
 	</ItemGroup>

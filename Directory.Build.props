@@ -10,6 +10,12 @@
     <!-- The VpnHood packages, one version for all of them: the one this template is made with,
          unless app/app.props names another. -->
     <VpnHoodVersion Condition="'$(VpnHoodVersion)' == ''">9.0.856</VpnHoodVersion>
+    <!-- The app's settings, app/appsettings.json: VpnApp embeds them, and the VpnHood build reads the
+         theme they name (UiTheme) for the colour the app's launch screen shows. -->
+    <VhAppSettingsFile>$(MSBuildThisFileDirectory)app/appsettings.json</VhAppSettingsFile>
+    <!-- The app's icons, four SVGs in app/icons, which the VpnHood build draws at every size Android
+         and iOS ask for. -->
+    <VhAppIconsDir>$(MSBuildThisFileDirectory)app/icons</VhAppIconsDir>
   </PropertyGroup>
 
   <!-- Packages of a VpnHood not yet released, to try the template against before they are: a

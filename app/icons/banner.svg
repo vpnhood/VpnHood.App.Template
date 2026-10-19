@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+  <title>Placeholder banner</title>
+  <path d="M0,0h320v180h-320z" fill="#211951"/>
+  <g transform="translate(40,-28.89) scale(2.2222)">
+    <path d="M54,31L72,37L72,52C72,63 64,71 54,76C44,71 36,63 36,52L36,37z" fill="#FFFFFF"/>
+  </g>
+</svg>

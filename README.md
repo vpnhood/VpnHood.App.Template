@@ -56,14 +56,17 @@ Change what's in `app/`:
 
 The access key gives access to your servers, so keep it out of a public repository.
 
-Then replace the icons, which are neutral placeholders, with yours:
+Then replace the icons, which are neutral placeholders, with yours: four SVGs in `app/icons/`, from
+which the build draws every size Android and iOS ask for.
 
-- **Android** (both projects): `Resources/mipmap-*` and `Resources/drawable`, including the TV banner
-  (`ic_banner`) and the white-on-transparent notification and Quick Settings icons; the colours are
-  in `Resources/values`.
-- **iOS** (both projects): `Assets.xcassets/AppIcon.appiconset`. Keep the images opaque; iOS rounds
-  the corners itself.
-- **Windows**: `Resources/app.ico`.
+| File | What it is |
+| --- | --- |
+| `icon_background.svg` | The icon's background, full bleed. Keep it opaque; iOS rounds the corners itself. |
+| `icon_foreground.svg` | Your logo at full size. Android shows it at 70%, inside what every launcher's mask keeps; iOS shows the whole square. |
+| `icon_monochrome.svg` | Your logo in one colour, which the system paints: Android's notifications, Quick Settings tile and themed icon. |
+| `banner.svg` | The wide banner, 16:9, that Android TV shows. |
+
+Windows takes its own: `src/VpnApp.Windows.Web/Resources/app.ico`.
 
 ## Build
 
