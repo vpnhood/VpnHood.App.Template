@@ -105,4 +105,3 @@ Android installs an update only over a copy signed with it.
 
 - Ads, crash reports, and install attribution.
 - The Windows and Linux builds' installers and update feeds, and publishing to the stores.
-- The Avalonia UI's browser build: the page a phone opens when it's paired with a TV.
