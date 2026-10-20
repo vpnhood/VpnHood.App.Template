@@ -9,7 +9,7 @@
     <LangVersion>latest</LangVersion>
     <!-- The VpnHood packages, one version for all of them: the one this template is made with,
          unless app/app.props names another. -->
-    <VpnHoodVersion Condition="'$(VpnHoodVersion)' == ''">9.0.856</VpnHoodVersion>
+    <VpnHoodVersion Condition="'$(VpnHoodVersion)' == ''">9.0.857</VpnHoodVersion>
     <!-- The app's settings, app/appsettings.json: VpnApp embeds them, and the VpnHood build reads the
          theme they name (UiTheme) for the colour the app's launch screen shows. -->
     <VhAppSettingsFile>$(MSBuildThisFileDirectory)app/appsettings.json</VhAppSettingsFile>
