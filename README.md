@@ -72,11 +72,11 @@ Windows takes its own: `src/VpnApp.Windows.Web/Resources/app.ico`.
 
 | Build | Project | Needs |
 | --- | --- | --- |
-| Google Play | `src/VpnApp.Android.Google` | .NET SDK with the `android` workload |
-| Website APK | `src/VpnApp.Android.Web` | .NET SDK with the `android` workload |
+| Google Play | `src/VpnApp.Android.Google` | .NET 11 SDK with the `android` workload |
+| Website APK | `src/VpnApp.Android.Web` | .NET 11 SDK with the `android` workload |
 | App Store | `src/VpnApp.Ios.Apple` (bundles `src/VpnApp.Ios.Extension`) | .NET 11 SDK with the `ios` workload, and a Mac with Xcode to sign and run it |
-| Windows | `src/VpnApp.Windows.Web` | .NET SDK |
-| Linux | `src/VpnApp.Linux.Web` | .NET SDK |
+| Windows | `src/VpnApp.Windows.Web` | .NET 11 SDK |
+| Linux | `src/VpnApp.Linux.Web` | .NET 11 SDK |
 
 For example, `dotnet build src/VpnApp.Windows.Web`.
 

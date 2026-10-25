@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Description>The app for Android, as the APK your website hands out</Description>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net10.0-android36.1</TargetFramework>
+		<TargetFramework>net11.0-android37.0</TargetFramework>
 		<SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
 		<!-- Your website hands this build out, and its id says so (….android.web), apart from the
 		     Play build's. -->
@@ -19,7 +19,6 @@
 		<!-- android-arm is still what some Android TVs run. -->
 		<RuntimeIdentifiers>android-arm64;android-x64;android-arm</RuntimeIdentifiers>
 		<PublishTrimmed>True</PublishTrimmed>
-		<RunAOTCompilation>True</RunAOTCompilation>
 	</PropertyGroup>
 
 	<!-- -p:VpnAppArm64Apk=true: the arm64 APK, a third the size, which arm64 phones update from. -->

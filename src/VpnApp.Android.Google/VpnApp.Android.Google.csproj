@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Description>The app for Android, on Google Play</Description>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net10.0-android36.1</TargetFramework>
+		<TargetFramework>net11.0-android37.0</TargetFramework>
 		<SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
@@ -14,7 +14,6 @@
 		<!-- android-arm is still what some Android TVs run. -->
 		<RuntimeIdentifiers>android-arm64;android-x64;android-arm</RuntimeIdentifiers>
 		<PublishTrimmed>True</PublishTrimmed>
-		<RunAOTCompilation>True</RunAOTCompilation>
 		<!-- Play asks for an optimized DEX: R8 shrinks the Java side. The SDK's rules keep the names,
 		     so the Java calls into .NET still find what they call. -->
 		<AndroidLinkTool>r8</AndroidLinkTool>

@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Description>The app for Linux, handed out by your website</Description>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFramework>net11.0</TargetFramework>
 		<!-- A plain target framework names no platform, so the project does. -->
 		<VhAppPlatform>linux</VhAppPlatform>
 		<!-- The binary, its service and their folders are called by the app's short name. -->
