@@ -27,9 +27,6 @@
 	<array>
 		<string>arm64</string>
 	</array>
-	<!-- No iPad multitasking, so the UI's own orientation lock holds. -->
-	<key>UIRequiresFullScreen</key>
-	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
