@@ -42,7 +42,6 @@ Change what's in `app/`:
    | `RemoteSettingsUrl` | Settings the app fetches while it runs. |
    | `Ga4MeasurementId`, `AllowEndPointTracker` | Analytics, off unless set. The iOS build never sends any. |
    | `UpdateInfoBaseUrl` | Where the website APK's update feeds are ([Publish the website build](#publish-the-website-build)). Left out, that build hears of no update. |
-   | `WebReleaseCertificateSha256` | The SHA-256 of the certificate your website APK is signed with, in hex (`apksigner verify --print-certs` shows it). The app downloads and installs its update only over a copy signed with it; left out, a Release build shows the update's link instead. |
 
    An `appsettings.Debug.json` or `appsettings.Release.json` beside it overrides the keys it names,
    in that configuration only.

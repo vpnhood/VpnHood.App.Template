@@ -57,17 +57,11 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
             AndroidWebAppUpdaterProvider.FeedDistribution);
         return new AppUpdaterOptions {
             UpdateInfoUrl = updateInfoUrl,
-            UpdaterProvider = updateInfoUrl is null ? null : TryCreateUpdaterProvider(appConfigs)
+            // none over a store's install, whose notice keeps the feed's link; no key to check, as Android
+            // itself refuses a package signed with another key than the installed app's
+            UpdaterProvider = updateInfoUrl is null ? null : AndroidWebAppUpdaterProvider.TryCreate(signingCertificateSha256: null)
         };
     }
-
-    // Only over a copy signed with your key, and none over a store's install: their notice keeps the
-    // feed's link. A Debug build is signed with the machine's own key, so it takes any; a Release
-    // build that names no key keeps the link.
-    private static AndroidWebAppUpdaterProvider? TryCreateUpdaterProvider(VpnAppConfigs appConfigs) =>
-        AppConstants.IsDebugMode || appConfigs.WebReleaseCertificateSha256 is not null
-            ? AndroidWebAppUpdaterProvider.TryCreate(AppConstants.IsDebugMode ? null : appConfigs.WebReleaseCertificateSha256)
-            : null;
 
     private static IAccountProvider? CreateAccountProvider(VpnAppConfigs appConfigs, AppOptionsContext context)
     {
