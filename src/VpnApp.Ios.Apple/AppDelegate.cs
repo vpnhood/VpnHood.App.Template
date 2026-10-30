@@ -50,8 +50,8 @@ public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
             TermsOfUse = options.Links.TermsOfUse ??
                          new Uri("https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")
         };
-        // the store took the person's acceptance at install
-        options.IsLicenseAgreementRequired = false;
+        // The first-run summary stays on, unlike in the Google Play build: App Review 5.4 wants a VPN app
+        // to say what it collects on a screen before first use, and the store's own pages are not one.
         options.UserReviewProvider = new AppStoreInAppUserReviewProvider();
         // The premium tier stays as VpnAppOptions makes it: the App Store forbids unlocking with a
         // code typed in, and steering a buyer to your own shop.
