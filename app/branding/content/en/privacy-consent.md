@@ -9,4 +9,4 @@ title: "Terms of Use and Privacy Policy"
 - Depending on where you installed it, the app may offer an optional sign-in for subscriptions.
 - You are responsible for what you send through the VPN, and must not use it to break the law or to attack, spam, or harm others.
 
-This page is a summary. The full documents govern your use of the app:
+This page is a summary. The full documents govern your use of the app.
