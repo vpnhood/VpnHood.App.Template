@@ -4,7 +4,7 @@ using VpnHood.AppLib.App;
 using VpnHood.AppLib.Portal;
 using VpnHood.AppUi.Hosting.Avalonia.Desktop;
 using VpnHood.AppUi.Hosting.Desktop;
-using VpnHood.AppUi.Hosting.Desktop.Windows;
+using VpnHood.AppUi.Hosting.Desktop.WindowsTun;
 using VpnHood.AppUi.Presentation.Classic.Avalonia;
 using VpnHood.Net.Toolkit.Logging;
 

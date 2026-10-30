@@ -57,9 +57,9 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
             AndroidWebAppUpdaterProvider.FeedDistribution);
         return new AppUpdaterOptions {
             UpdateInfoUrl = updateInfoUrl,
-            // none over a store's install, whose notice keeps the feed's link; no key to check, as Android
+            // not over a store's install, whose notice keeps the feed's link; no key to check, as Android
             // itself refuses a package signed with another key than the installed app's
-            UpdaterProvider = updateInfoUrl is null ? null : AndroidWebAppUpdaterProvider.TryCreate(signingCertificateSha256: null)
+            UpdaterProvider = updateInfoUrl is null ? null : AndroidWebAppUpdaterProvider.Create()
         };
     }
 
