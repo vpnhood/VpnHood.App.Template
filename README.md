@@ -67,6 +67,24 @@ which the build draws every size Android and iOS ask for.
 
 Windows takes its own: `src/VpnApp.Windows.Web/Resources/app.ico`.
 
+## Android settings
+
+The VpnHood packages give an Android app its resources, and each Android head (`src/VpnApp.Android.Google`,
+`src/VpnApp.Android.Web`) has its own copies of these files. A head's file takes the place of the
+package's file of the same name whole, and nothing of the package's file is kept:
+
+| File | What it is |
+| --- | --- |
+| `Properties/AndroidManifest.xml` | The Android version the app is written for, and which of the files below it uses. |
+| `Resources/xml/backup_rules.xml` | What Android's backup leaves out, on Android 11 and older. |
+| `Resources/xml/data_extraction_rules.xml` | What Android's backup and a move to a new phone leave out, on Android 12 and newer. Leave out what belongs to one install only: an SDK's ids and unsent reports, a device's own settings. |
+| `Resources/xml/locales_config.xml` | The languages Android's per-app language setting offers. Name only the languages your app's words come in. |
+| `Resources/xml/network_security_config.xml` | Which servers the app may reach without TLS, and the certificate roots it trusts beyond the phone's own. |
+
+Each head's `App.cs` sets the app's switches in its `[Application]` attribute: backup on or off, the
+network security config, right-to-left layouts. The VPN's permissions come with the packages: every
+VPN app needs them.
+
 ## Build
 
 | Build | Project | Needs |
