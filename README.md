@@ -69,17 +69,22 @@ Windows takes its own: `src/VpnApp.Windows.Web/Resources/app.ico`.
 
 ## Android settings
 
-The VpnHood packages give an Android app its resources, and each Android head (`src/VpnApp.Android.Google`,
-`src/VpnApp.Android.Web`) has its own copies of these files. A head's file takes the place of the
-package's file of the same name whole, and nothing of the package's file is kept:
+Each Android head (`src/VpnApp.Android.Google`, `src/VpnApp.Android.Web`) has two files of its own:
 
 | File | What it is |
 | --- | --- |
-| `Properties/AndroidManifest.xml` | The Android version the app is written for, and which of the files below it uses. |
-| `Resources/xml/backup_rules.xml` | What Android's backup leaves out, on Android 11 and older. |
-| `Resources/xml/data_extraction_rules.xml` | What Android's backup and a move to a new phone leave out, on Android 12 and newer. Leave out what belongs to one install only: an SDK's ids and unsent reports, a device's own settings. |
+| `Properties/AndroidManifest.xml` | The Android version the app is written for, and the files below that it uses. |
 | `Resources/xml/locales_config.xml` | The languages Android's per-app language setting offers. Name only the languages your app's words come in. |
-| `Resources/xml/network_security_config.xml` | Which servers the app may reach without TLS, and the certificate roots it trusts beyond the phone's own. |
+
+The VpnHood packages give the rest, and a head changes any of it by adding a file of the same name
+to its `Resources/xml/`. That file takes the place of the package's whole, so start from a copy of
+the package's (in VpnHood's `src/AppLib/VpnHood.AppLib.App.Android/Resources/xml/`):
+
+| File | What it is |
+| --- | --- |
+| `backup_rules.xml` | What Android's backup leaves out, on Android 11 and older. |
+| `data_extraction_rules.xml` | What Android's backup and a move to a new phone leave out, on Android 12 and newer. The package's leave out what belongs to one install only: an SDK's ids and unsent reports. |
+| `network_security_config.xml` | Which servers the app may reach without TLS (only the device itself), and the certificate roots it trusts beyond the phone's own: Let's Encrypt's, which Android 7.0 lacks. |
 
 Each head's `App.cs` sets the app's switches in its `[Application]` attribute: backup on or off, the
 network security config, right-to-left layouts. The VPN's permissions come with the packages: every

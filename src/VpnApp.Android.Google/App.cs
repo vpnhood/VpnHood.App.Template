@@ -32,7 +32,7 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
             AppId = PackageName ?? throw new InvalidOperationException("The app has no package name."),
             AppName = AppConstants.AppName,
             AppVersion = Version.Parse(AppConstants.AppVersion),
-            StorageFolderName = "app", // Resources/xml/backup_rules.xml and data_extraction_rules.xml name it
+            StorageFolderName = "app", // never renamed once shipped: a new name is an empty folder
             AppOptionsFactory = CreateAppOptions
         };
     }
