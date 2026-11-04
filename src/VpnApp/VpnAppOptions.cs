@@ -22,6 +22,7 @@ public static class VpnAppOptions
     private static readonly AppFeature[] PremiumFeatures = [
         AppFeature.CustomDns,
         AppFeature.AlwaysOn,
+        AppFeature.KillSwitch,
         AppFeature.QuickLaunch,
         AppFeature.SplitIpViaApp,
         AppFeature.SplitIpViaDevice,

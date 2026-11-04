@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Description>The VPN service of the app for Windows, in a process of its own</Description>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net11.0</TargetFramework>
+		<!-- The service starts it by this name, which the app's own assembly records. -->
+		<AssemblyName>$(VhAppVpnHostName)</AssemblyName>
+		<ApplicationIcon>../VpnApp.Windows.Web/Resources/app.ico</ApplicationIcon>
+		<!-- It draws nothing, so it takes none of the app's own files (Directory.Build.targets). -->
+		<VpnAppIsApp>false</VpnAppIsApp>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="VpnHood.Core.Client.Devices.WindowsTun" Version="$(VpnHoodVersion)" />
+	</ItemGroup>
+</Project>

@@ -25,7 +25,7 @@
        and a phone installs no update from your website with a lower one.
 
        The VpnHood packages come at the version this template names. To take another, a newer VpnHood
-       for example, add <VpnHoodVersion>9.0.900</VpnHoodVersion> below, with the version you want. -->
+       for example, add <VpnHoodVersion>9.2.900</VpnHoodVersion> below, with the version you want. -->
   <PropertyGroup>
     <VhAppIdBase>com.example.myvpn</VhAppIdBase>
     <VhAppName>My VPN</VhAppName>

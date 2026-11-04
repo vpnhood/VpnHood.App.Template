@@ -46,7 +46,7 @@ internal static class App
                 return null;
 
             // the portal's own sign-in, and checkout in the browser of the person at the window
-            var authenticationProvider = new PortalAuthenticationProvider(context.StoragePath,
+            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStoragePath,
                 appConfigs.PortalBaseUri, context.AppId, []);
             var billingProvider = new PortalWebBillingProvider(appConfigs.PortalBaseUri, context.AppId);
             return new PortalAccountProvider(authenticationProvider, billingProvider: billingProvider,

@@ -80,7 +80,7 @@ public class AppDelegate : IosAvaloniaAppDelegate<ClassicAvaloniaApp>
 
             // Sign in with Apple, StoreKit billing, and your portal behind both: the portal maps each
             // store product to the plan it redeems.
-            var authenticationProvider = new PortalAuthenticationProvider(context.StoragePath,
+            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStoragePath,
                 appConfigs.PortalBaseUri, context.AppId, [new AppleAuthenticationProvider()]);
             return new PortalAccountProvider(authenticationProvider, new AppStoreBillingProvider(),
                 portalBaseUrl: appConfigs.PortalBaseUri, packageName: context.AppId);

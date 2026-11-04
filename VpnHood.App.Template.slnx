@@ -23,6 +23,8 @@
   <Project Path="src/VpnApp.Android.Web/VpnApp.Android.Web.csproj" />
   <Project Path="src/VpnApp.Ios.Apple/VpnApp.Ios.Apple.csproj" />
   <Project Path="src/VpnApp.Ios.Extension/VpnApp.Ios.Extension.csproj" />
+  <Project Path="src/VpnApp.Linux.VpnHost/VpnApp.Linux.VpnHost.csproj" />
   <Project Path="src/VpnApp.Linux.Web/VpnApp.Linux.Web.csproj" />
+  <Project Path="src/VpnApp.Windows.VpnHost/VpnApp.Windows.VpnHost.csproj" />
   <Project Path="src/VpnApp.Windows.Web/VpnApp.Windows.Web.csproj" />
 </Solution>

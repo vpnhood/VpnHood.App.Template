@@ -73,7 +73,7 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
             // The portal's own sign-in, not Google's: an Android OAuth client is bound to a package name
             // and a signing key, and this build shares neither with the Play build. Checkout is in the
             // browser.
-            var authenticationProvider = new PortalAuthenticationProvider(context.StoragePath,
+            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStoragePath,
                 appConfigs.PortalBaseUri, context.AppId, []);
             var billingProvider = new PortalWebBillingProvider(appConfigs.PortalBaseUri, context.AppId);
             return new PortalAccountProvider(authenticationProvider, billingProvider: billingProvider,

@@ -97,13 +97,13 @@ VPN app needs them.
 | Google Play | `src/VpnApp.Android.Google` | .NET 11 SDK with the `android` workload |
 | Website APK | `src/VpnApp.Android.Web` | .NET 11 SDK with the `android` workload |
 | App Store | `src/VpnApp.Ios.Apple` (bundles `src/VpnApp.Ios.Extension`) | .NET 11 SDK with the `ios` workload, and a Mac with Xcode to sign and run it |
-| Windows | `src/VpnApp.Windows.Web` | .NET 11 SDK |
-| Linux | `src/VpnApp.Linux.Web` | .NET 11 SDK |
+| Windows | `src/VpnApp.Windows.Web` (with `src/VpnApp.Windows.VpnHost`, the VPN service's own process) | .NET 11 SDK |
+| Linux | `src/VpnApp.Linux.Web` (with `src/VpnApp.Linux.VpnHost`, the VPN service's own process) | .NET 11 SDK |
 
 For example, `dotnet build src/VpnApp.Windows.Web`.
 
 The VpnHood packages come at the version this template names. To take another, a newer VpnHood for
-example, add `<VpnHoodVersion>9.0.900</VpnHoodVersion>` to `app/app.props`, with the version you want.
+example, add `<VpnHoodVersion>9.2.900</VpnHoodVersion>` to `app/app.props`, with the version you want.
 
 ## Publish the website build
 

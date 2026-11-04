@@ -70,7 +70,7 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
 
             // Google sign-in, Play's billing, and your portal behind both: the portal maps each store
             // product to the plan it redeems.
-            var authenticationProvider = new PortalAuthenticationProvider(context.StoragePath,
+            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStoragePath,
                 appConfigs.PortalBaseUri, context.AppId, [new GooglePlayAuthenticationProvider(googleSignInClientId)],
                 restoreCredentialProvider: new GoogleRestoreCredentialProvider());
             return new PortalAccountProvider(authenticationProvider, TryCreateBillingProvider(),
