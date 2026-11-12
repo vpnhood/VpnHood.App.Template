@@ -61,7 +61,7 @@ which the build draws every size Android and iOS ask for.
 | File | What it is |
 | --- | --- |
 | `icon_background.svg` | The icon's background, full bleed. Keep it opaque; iOS rounds the corners itself. |
-| `icon_foreground.svg` | Your logo at full size. Android shows it at 70%, inside what every launcher's mask keeps; iOS shows the whole square. |
+| `icon_foreground.svg` | Your logo at full size. Android shows it at 64%: keep it inside the circle that touches the square's sides, which a round launcher shows whole. iOS shows the whole square. |
 | `icon_monochrome.svg` | Your logo in one colour, which the system paints: Android's notifications, Quick Settings tile and themed icon. |
 | `banner.svg` | The wide banner, 16:9, that Android TV shows. |
 
