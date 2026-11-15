@@ -32,7 +32,7 @@ public static class VpnAppOptions
     public static AppOptions Create(AppOptionsContext context, VpnAppConfigs appConfigs)
     {
         var packagedAssetProvider = context.PackagedAssetProvider;
-        // your server's key; a Debug build without one starts with VpnHood's sample server
+        // your server's key; a Debug build without one starts with VpnHood's test server
         var defaultAccessKey = appConfigs.DefaultAccessKey ??
                                (AppConstants.IsDebugMode ? ClientOptions.SampleAccessKey : null);
         return new AppOptions(context, AppConstants.IsDebugMode) {
