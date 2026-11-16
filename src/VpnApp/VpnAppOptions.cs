@@ -1,7 +1,7 @@
-using VpnHood.AppLib.Api.App;
-using VpnHood.AppLib.Api.Premium;
-using VpnHood.AppLib.Api.WebHost;
-using VpnHood.AppLib.App;
+using VpnHood.AppLogic.Api.App;
+using VpnHood.AppLogic.Api.Premium;
+using VpnHood.AppLogic.Api.WebHost;
+using VpnHood.AppLogic.App;
 using VpnHood.Core.Client.Abstractions;
 using VpnHood.Core.Client.VpnServices.Abstractions.Tracking;
 using VpnHood.Net.Toolkit.Assets;
@@ -34,7 +34,7 @@ public static class VpnAppOptions
         var packagedAssetProvider = context.PackagedAssetProvider;
         // your server's key; a Debug build without one starts with VpnHood's test server
         var defaultAccessKey = appConfigs.DefaultAccessKey ??
-                               (AppConstants.IsDebugMode ? ClientOptions.SampleAccessKey : null);
+                               (AppConstants.IsDebugMode ? ClientOptions.TestAccessKey : null);
         return new AppOptions(context, AppConstants.IsDebugMode) {
             PackageTitle = AppConstants.PackageTitle,
             CompanyName = AppConstants.CompanyName,
@@ -54,7 +54,7 @@ public static class VpnAppOptions
             RemoteSettingsUrl = appConfigs.RemoteSettingsUrl,
             AllowEndPointTracker = appConfigs.AllowEndPointTracker,
             AllowEndPointStrategy = appConfigs.AllowEndPointStrategy,
-            WebUiPort = appConfigs.WebUiPort,
+            WebHostPort = appConfigs.WebHostPort,
             IpLocationZipAsset = new Asset(packagedAssetProvider, "iplocations/IpLocations.zip"),
             // the app's own files (app/branding) first: each replaces the store's of the same path
             UiZipAssets = [

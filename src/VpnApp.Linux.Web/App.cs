@@ -1,11 +1,11 @@
 using Microsoft.Extensions.Logging;
-using VpnHood.AppLib.Abstractions.Accounts;
-using VpnHood.AppLib.App;
-using VpnHood.AppLib.Portal;
-using VpnHood.AppUi.Hosting.Avalonia.Desktop;
-using VpnHood.AppUi.Hosting.Desktop;
-using VpnHood.AppUi.Hosting.Desktop.Linux;
-using VpnHood.AppUi.Presentation.Classic.Avalonia;
+using VpnHood.AppLogic.Abstractions.Accounts;
+using VpnHood.AppLogic.App;
+using VpnHood.AppLogic.Portal;
+using VpnHood.AppHosting.Avalonia.Desktop;
+using VpnHood.AppHosting.Desktop;
+using VpnHood.AppHosting.Desktop.Linux;
+using VpnHood.AppUi.Avalonia.Classic;
 using VpnHood.Net.Toolkit.Logging;
 
 namespace VpnApp.Linux.Web;
@@ -45,7 +45,7 @@ internal static class App
                 return null;
 
             // the portal's own sign-in, and checkout in the browser of the person at the window
-            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStoragePath,
+            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStorage,
                 appConfigs.PortalBaseUri, context.AppId, []);
             var billingProvider = new PortalWebBillingProvider(appConfigs.PortalBaseUri, context.AppId);
             return new PortalAccountProvider(authenticationProvider, billingProvider: billingProvider,

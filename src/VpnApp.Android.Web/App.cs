@@ -1,13 +1,13 @@
 using Android.Runtime;
 using Microsoft.Extensions.Logging;
-using VpnHood.AppLib.Abstractions.Accounts;
-using VpnHood.AppLib.App;
-using VpnHood.AppLib.App.Android.Constants;
-using VpnHood.AppLib.App.Services.Updaters;
-using VpnHood.AppLib.Portal;
-using VpnHood.AppLib.Stores.AndroidWeb;
-using VpnHood.AppUi.Hosting.Avalonia.Android;
-using VpnHood.AppUi.Presentation.Classic.Avalonia;
+using VpnHood.AppLogic.Abstractions.Accounts;
+using VpnHood.AppLogic.App;
+using VpnHood.AppLogic.App.Android.Constants;
+using VpnHood.AppLogic.App.Services.Updaters;
+using VpnHood.AppLogic.Portal;
+using VpnHood.AppLogic.Stores.AndroidWeb;
+using VpnHood.AppHosting.Avalonia.Android;
+using VpnHood.AppUi.Avalonia.Classic;
 using VpnHood.Net.Toolkit.Logging;
 
 namespace VpnApp.Android.Web;
@@ -73,7 +73,7 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
             // The portal's own sign-in, not Google's: an Android OAuth client is bound to a package name
             // and a signing key, and this build shares neither with the Play build. Checkout is in the
             // browser.
-            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStoragePath,
+            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStorage,
                 appConfigs.PortalBaseUri, context.AppId, []);
             var billingProvider = new PortalWebBillingProvider(appConfigs.PortalBaseUri, context.AppId);
             return new PortalAccountProvider(authenticationProvider, billingProvider: billingProvider,

@@ -4,8 +4,8 @@
 > **Under construction.** This template isn't ready for use yet, and any part of it may still
 > change.
 
-Your own VPN app on VpnHood, for Android (Google Play and your website), iOS (App Store), Windows and
-Linux. Everything VpnHood comes from NuGet: this repository holds only your app.
+Your own VPN app on VpnHood, for Android (Google Play and your website), iOS and the Apple TV (App
+Store), Windows and Linux. Everything VpnHood comes from NuGet: this repository holds only your app.
 
 ## Make it your app
 
@@ -36,11 +36,11 @@ Change what's in `app/`:
    | `DefaultAccessKey` | The access key of your server, the one the app connects to. A Debug build without one uses VpnHood's test server. |
    | `Links` | The pages the app links to: `PrivacyPolicy` and `TermsOfUse` (the paywall, Settings > Privacy and the first run), and the menu's `Website`, `WhatsNew`, `Feedback`, `LinkedIn`, `Instagram` and `X`. A link left out isn't shown. Without `TermsOfUse`, the App Store build links Apple's standard EULA; your terms, once set, have to name that EULA as the licence of a copy from the App Store, or be registered in App Store Connect as the app's own. |
    | `ShowPoweredBy` | The menu's "Powered by VpnHood! ENGINE"; `false` hides it. |
-   | `WebUiPort` | The port of the app's local web host, which a paired phone's address names; two apps on one device need two. Left out, 9090, and 9091 in a Debug build. |
+   | `WebHostPort` | The port of the app's local web host, which a paired phone's address names; two apps on one device need two. Left out, 9090, and 9091 in a Debug build. |
    | `PortalBaseUri` | Your portal, for sign-in, plans and purchases. Without it the app has no accounts. |
    | `GoogleSignInClientId` | Google sign-in on the Play build; required once `PortalBaseUri` is set. |
    | `RemoteSettingsUrl` | Settings the app fetches while it runs. |
-   | `Ga4MeasurementId`, `AllowEndPointTracker` | Analytics, off unless set. The iOS build never sends any. |
+   | `Ga4MeasurementId`, `AllowEndPointTracker` | Analytics, off unless set. The App Store build never sends any. |
    | `UpdateInfoBaseUrl` | Where the website APK's update feeds are ([Publish the website build](#publish-the-website-build)). Left out, that build hears of no update. |
 
    An `appsettings.Debug.json` or `appsettings.Release.json` beside it overrides the keys it names,
@@ -56,16 +56,16 @@ Change what's in `app/`:
 The access key gives access to your servers, so keep it out of a public repository.
 
 Then replace the icons, which are neutral placeholders, with yours: four SVGs in `app/icons/`, from
-which the build draws every size Android and iOS ask for.
+which the build draws every size Android, iOS and the Apple TV ask for, and the Windows and Linux
+builds' icon beside them.
 
 | File | What it is |
 | --- | --- |
-| `icon_background.svg` | The icon's background, full bleed. Keep it opaque; iOS rounds the corners itself. |
-| `icon_foreground.svg` | Your logo at full size. Android shows it at 64%: keep it inside the circle that touches the square's sides, which a round launcher shows whole. iOS shows the whole square. |
+| `icon_background.svg` | The icon's background, full bleed. Keep it opaque; iOS rounds the corners itself, and the Apple TV's icon, wider than high, shows a band across its middle. |
+| `icon_foreground.svg` | Your logo at full size. Android shows it at 64%: keep it inside the circle that touches the square's sides, which a round launcher shows whole. iOS shows the whole square, and the Apple TV the whole logo, in the middle of its icon. |
 | `icon_monochrome.svg` | Your logo in one colour, which the system paints: Android's notifications, Quick Settings tile and themed icon. |
-| `banner.svg` | The wide banner, 16:9, that Android TV shows. |
-
-Windows takes its own: `src/VpnApp.Windows.Web/Resources/app.ico`.
+| `banner.svg` | The wide banner, 16:9, that Android TV shows, and the Apple TV's top shelf, which shows only its middle: keep what it shows within the middle 55% of its height. |
+| `app.ico` | The Windows and Linux builds' icon: the executable's, the tray's and the Linux menu's. Store its 256 px picture as PNG, as icon editors do: the Linux build reads that one. |
 
 ## Android settings
 
@@ -78,7 +78,7 @@ Each Android head (`src/VpnApp.Android.Google`, `src/VpnApp.Android.Web`) has tw
 
 The VpnHood packages give the rest, and a head changes any of it by adding a file of the same name
 to its `Resources/xml/`. That file takes the place of the package's whole, so start from a copy of
-the package's (in VpnHood's `src/AppLib/VpnHood.AppLib.App.Android/Resources/xml/`):
+the package's (in VpnHood's `src/libs/AppLogic/VpnHood.AppLogic.App.Android/Resources/xml/`):
 
 | File | What it is |
 | --- | --- |
@@ -96,11 +96,15 @@ VPN app needs them.
 | --- | --- | --- |
 | Google Play | `src/VpnApp.Android.Google` | .NET 11 SDK with the `android` workload |
 | Website APK | `src/VpnApp.Android.Web` | .NET 11 SDK with the `android` workload |
-| App Store | `src/VpnApp.Ios.Apple` (bundles `src/VpnApp.Ios.Extension`) | .NET 11 SDK with the `ios` workload, and a Mac with Xcode to sign and run it |
+| App Store | `src/VpnApp.Ios.Apple` (bundles `src/VpnApp.Ios.Extension`), one app for iOS and the Apple TV | .NET 11 SDK with the `ios` and `tvos` workloads, and a Mac with Xcode to sign and run it |
 | Windows | `src/VpnApp.Windows.Web` (with `src/VpnApp.Windows.VpnHost`, the VPN service's own process) | .NET 11 SDK |
 | Linux | `src/VpnApp.Linux.Web` (with `src/VpnApp.Linux.VpnHost`, the VPN service's own process) | .NET 11 SDK |
 
-For example, `dotnet build src/VpnApp.Windows.Web`.
+For example, `dotnet build src/VpnApp.Windows.Web`. The App Store build makes both apps; `-f net11.0-ios`
+or `-f net11.0-tvos` makes one.
+
+A Debug build of the Windows or Linux app is called by the short name and `Debug` (`MyVPNDebug`), its
+service and VPN host too, so it runs beside an installed release of your app.
 
 The VpnHood packages come at the version this template names. To take another, a newer VpnHood for
 example, add `<VpnHoodVersion>9.2.900</VpnHoodVersion>` to `app/app.props`, with the version you want.

@@ -15,10 +15,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="VpnHood.AppLib.App" Version="$(VpnHoodVersion)" />
-		<PackageReference Include="VpnHood.AppLib.Api.WebHost" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppLogic.App" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppLogic.Api.WebHost" Version="$(VpnHoodVersion)" />
 		<!-- The IP-location database the app looks countries up in. -->
-		<PackageReference Include="VpnHood.Net.IpLocations.Assets.Ip2LocationLite" Version="9.0.869" />
+		<PackageReference Include="VpnHood.Net.IpLocations.Assets.Ip2LocationLite" Version="9.0.870" />
 	</ItemGroup>
 
 </Project>

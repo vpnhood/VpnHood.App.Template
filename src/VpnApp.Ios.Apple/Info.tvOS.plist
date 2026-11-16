@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<!-- The Apple TV's manifest (the project's AppBundleManifest for the tvOS target); Info.plist is
+	     iOS's. CFBundleIdentifier and CFBundleDisplayName are the build's, from app/app.props; the
+	     versions are the build's too. None is written here. -->
+	<!-- false: standard encryption only, as on iOS (Info.plist says why). -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>3</integer>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
+	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>

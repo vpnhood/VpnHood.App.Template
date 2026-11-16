@@ -8,6 +8,7 @@
     <File Path="app/branding/content/en/privacy-consent.md" />
   </Folder>
   <Folder Name="/app/icons/">
+    <File Path="app/icons/app.ico" />
     <File Path="app/icons/banner.svg" />
     <File Path="app/icons/icon_background.svg" />
     <File Path="app/icons/icon_foreground.svg" />

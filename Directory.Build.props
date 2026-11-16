@@ -9,16 +9,23 @@
     <LangVersion>latest</LangVersion>
     <!-- The VpnHood packages, one version for all of them: the one this template is made with,
          unless app/app.props names another. -->
-    <VpnHoodVersion Condition="'$(VpnHoodVersion)' == ''">9.1.864</VpnHoodVersion>
-    <!-- The VPN host's name, the app's short name and "VpnHost". VpnHood's build gives an app these,
-         but a VPN host references nothing of the app, so they are settled here, for both. -->
+    <VpnHoodVersion Condition="'$(VpnHoodVersion)' == ''">9.1.875</VpnHoodVersion>
+    <!-- The desktop executable's name and the VPN host's. VpnHood's build gives an app these, but a
+         VPN host references nothing of the app, so they are settled here, for both, by the same rules:
+         the executable is the app's short name, with "Debug" after it in a Debug build, so a build of
+         yours has its own service, unit and VPN host beside an installed release (an empty
+         Configuration is Debug here, as the SDK has not given it its default yet); the VPN host is the
+         executable's name and "VpnHost". -->
     <VhAppPackageTitle Condition="'$(VhAppPackageTitle)' == ''">$([System.Text.RegularExpressions.Regex]::Replace('$(VhAppName)', '[^A-Za-z0-9]', ''))</VhAppPackageTitle>
-    <VhAppVpnHostName Condition="'$(VhAppVpnHostName)' == ''">$(VhAppPackageTitle)VpnHost</VhAppVpnHostName>
+    <VhAppExecutableName Condition="'$(VhAppExecutableName)' == '' And ('$(Configuration)' == 'Debug' Or '$(Configuration)' == '')">$(VhAppPackageTitle)Debug</VhAppExecutableName>
+    <VhAppExecutableName Condition="'$(VhAppExecutableName)' == ''">$(VhAppPackageTitle)</VhAppExecutableName>
+    <VhAppVpnHostName Condition="'$(VhAppVpnHostName)' == ''">$(VhAppExecutableName)VpnHost</VhAppVpnHostName>
     <!-- The app's settings, app/appsettings.json: VpnApp embeds them, and the VpnHood build reads the
          theme they name (UiTheme) for the colour the app's launch screen shows. -->
     <VhAppSettingsFile>$(MSBuildThisFileDirectory)app/appsettings.json</VhAppSettingsFile>
-    <!-- The app's icons, four SVGs in app/icons, which the VpnHood build draws at every size Android
-         and iOS ask for. -->
+    <!-- The app's icons, four SVGs in app/icons, which the VpnHood build draws at every size Android,
+         iOS and the Apple TV ask for. app.ico beside them is the Windows and Linux builds' own, which
+         their projects name. -->
     <VhAppIconsDir>$(MSBuildThisFileDirectory)app/icons</VhAppIconsDir>
   </PropertyGroup>
 

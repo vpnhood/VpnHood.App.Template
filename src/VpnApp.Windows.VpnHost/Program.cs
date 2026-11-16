@@ -1,4 +1,4 @@
-using VpnHood.Core.Client.Devices.WindowsTun;
+using VpnHood.Core.Client.VpnServices.Host.WindowsTun;
 
 namespace VpnApp.Windows.VpnHost;
 

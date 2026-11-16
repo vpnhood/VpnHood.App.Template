@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>The app's network extension on iOS: the tunnel, in a process of its own</Description>
-    <TargetFramework>net11.0-ios</TargetFramework>
-    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-    <SupportedOSPlatformVersion>18.0</SupportedOSPlatformVersion>
+    <Description>The app's network extension on iOS and the Apple TV: the tunnel, in a process of its own</Description>
+    <!-- The app's platforms (VpnApp.Ios.Apple): each target of the app bundles this one's build for it. -->
+    <TargetFrameworks>net11.0-ios;net11.0-tvos</TargetFrameworks>
     <UseMaui>false</UseMaui>
     <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
+    <!-- No trim analysis, as in the app (VpnApp.Ios.Apple's project says why). -->
+    <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
     <AssemblyName>VpnAppExtension</AssemblyName>
     <!-- Its bundle id, name and versions follow the app's (app/app.props). The app's come from the
          VpnHood app package, which the extension does not take, so it states them here, and the App
@@ -26,6 +27,22 @@
     <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
 
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+    <SupportedOSPlatformVersion>18.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <!-- The Apple TV, as in the app (VpnApp.Ios.Apple's project says why): tvOS 17, and tvOS's own
+       libsqlite3 for the split filters. -->
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tvos'">
+    <RuntimeIdentifier>tvos-arm64</RuntimeIdentifier>
+    <SupportedOSPlatformVersion>17.0</SupportedOSPlatformVersion>
+    <MtouchExtraArgs>$(MtouchExtraArgs) --gcc_flags=-lsqlite3</MtouchExtraArgs>
+  </PropertyGroup>
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tvos'">
+    <ReferenceNativeSymbol Include="sqlite3_enable_load_extension" SymbolType="Function" SymbolMode="Ignore" />
+  </ItemGroup>
+
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.GC.ConserveMemory" Value="9" />
     <!-- The App Group it shares with the app: the same the app's build derives. -->
@@ -38,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- The tunnel itself; this project adds only the class iOS starts. -->
-    <PackageReference Include="VpnHood.Core.Client.Devices.Ios" Version="$(VpnHoodVersion)" />
+    <!-- The tunnel itself, on iOS and tvOS; this project adds only the class the system starts. -->
+    <PackageReference Include="VpnHood.Core.Client.VpnServices.Host.Ios" Version="$(VpnHoodVersion)" />
   </ItemGroup>
 </Project>

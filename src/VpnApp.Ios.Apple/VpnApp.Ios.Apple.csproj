@@ -1,12 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>The app for iOS, on the App Store</Description>
+    <Description>The app for iOS and the Apple TV, on the App Store</Description>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net11.0-ios</TargetFramework>
-    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-    <SupportedOSPlatformVersion>18.0</SupportedOSPlatformVersion>
+    <!-- One app on the iPhone, the iPad and the Apple TV: the same bundle id, App Group and extension
+         id, so one App Store record, its subscriptions included. -->
+    <TargetFrameworks>net11.0-ios;net11.0-tvos</TargetFrameworks>
     <UseMaui>false</UseMaui>
     <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
+    <!-- The SDK trims only its own assemblies here, so VpnHood's reflection finds its types whole: no
+         trim analysis, which Android's SDK leaves off for such a build too. -->
+    <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
     <!-- The bundle's executable is the app's short name; its bundle id, name, App Group and
          extension id come from app/app.props. -->
     <AssemblyName>$(VhAppPackageTitle)</AssemblyName>
@@ -16,6 +19,25 @@
     <CodesignKey>Apple Development</CodesignKey>
   </PropertyGroup>
 
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+    <SupportedOSPlatformVersion>18.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <!-- The Apple TV: its own manifest; tvOS 17, the first with Network Extension; and tvOS's own
+       libsqlite3 for the VPN's split filters, as their package ships no tvOS build of it: all but the
+       one call it leaves out, which the filters never make, so the linker is asked for no such
+       symbol. -->
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tvos'">
+    <RuntimeIdentifier>tvos-arm64</RuntimeIdentifier>
+    <SupportedOSPlatformVersion>17.0</SupportedOSPlatformVersion>
+    <AppBundleManifest>Info.tvOS.plist</AppBundleManifest>
+    <MtouchExtraArgs>$(MtouchExtraArgs) --gcc_flags=-lsqlite3</MtouchExtraArgs>
+  </PropertyGroup>
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tvos'">
+    <ReferenceNativeSymbol Include="sqlite3_enable_load_extension" SymbolType="Function" SymbolMode="Ignore" />
+  </ItemGroup>
+
   <!-- Apple's privacy manifest, at the root of the .app bundle, where App Store Connect looks for it.
        The extension carries its own. -->
   <ItemGroup>
@@ -24,24 +46,26 @@
 
   <ItemGroup>
     <ProjectReference Include="../VpnApp/VpnApp.csproj" />
-    <!-- iOS as the app runs on it: the device, and the start of the app and its tunnel. -->
-    <PackageReference Include="VpnHood.AppLib.App.Ios" Version="$(VpnHoodVersion)" />
+    <!-- iOS and tvOS as the app runs on them: the device, and the start of the app and its tunnel. -->
+    <PackageReference Include="VpnHood.AppLogic.App.Ios" Version="$(VpnHoodVersion)" />
     <!-- The UI, as the app's window: the host, the pages and the files they draw. -->
-    <PackageReference Include="VpnHood.AppUi.Hosting.Avalonia.Ios" Version="$(VpnHoodVersion)" />
-    <PackageReference Include="VpnHood.AppUi.Presentation.Classic.Avalonia" Version="$(VpnHoodVersion)" />
+    <PackageReference Include="VpnHood.AppHosting.Avalonia.Ios" Version="$(VpnHoodVersion)" />
+    <PackageReference Include="VpnHood.AppUi.Avalonia.Classic" Version="$(VpnHoodVersion)" />
     <PackageReference Include="VpnHood.AppUi.Assets.Classic" Version="$(VpnHoodVersion)" />
     <!-- The App Store: its updates and reviews, and StoreKit billing and Sign in with Apple. -->
-    <PackageReference Include="VpnHood.AppLib.Stores.AppStore.Core" Version="$(VpnHoodVersion)" />
-    <PackageReference Include="VpnHood.AppLib.Stores.AppStore" Version="$(VpnHoodVersion)" />
+    <PackageReference Include="VpnHood.AppLogic.Stores.AppStore.Core" Version="$(VpnHoodVersion)" />
+    <PackageReference Include="VpnHood.AppLogic.Stores.AppStore" Version="$(VpnHoodVersion)" />
     <!-- Sign-in and purchases on your portal. -->
-    <PackageReference Include="VpnHood.AppLib.Portal" Version="$(VpnHoodVersion)" />
+    <PackageReference Include="VpnHood.AppLogic.Portal" Version="$(VpnHoodVersion)" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- The network extension, bundled as a PlugIn (.appex) inside the app. A publish that signs the
-         app with its own profile passes it as CodesignProvision; the extension must not inherit it. -->
+    <!-- The network extension, bundled as a PlugIn (.appex) inside the app: built and bundled, never
+         compiled against, each target taking its own platform's build. A publish that signs the app
+         with its own profile passes it as CodesignProvision; the extension must not inherit it. -->
     <ProjectReference Include="../VpnApp.Ios.Extension/VpnApp.Ios.Extension.csproj">
       <IsAppExtension>true</IsAppExtension>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <UndefineProperties>CodesignProvision</UndefineProperties>
     </ProjectReference>
   </ItemGroup>

@@ -21,16 +21,18 @@
 
 	<ItemGroup>
 		<ProjectReference Include="../VpnApp/VpnApp.csproj" />
-		<!-- Android as the app runs on it: the VPN service, the device, the tile. -->
-		<PackageReference Include="VpnHood.AppLib.App.Android" Version="$(VpnHoodVersion)" />
+		<!-- Android as the app runs on it: the device, the tile. -->
+		<PackageReference Include="VpnHood.AppLogic.App.Android" Version="$(VpnHoodVersion)" />
+		<!-- The VPN service, which the APK carries beside the app. -->
+		<PackageReference Include="VpnHood.Core.Client.VpnServices.Host.Android" Version="$(VpnHoodVersion)" />
 		<!-- The UI, as the app's activity: the host, the pages and the files they draw. -->
-		<PackageReference Include="VpnHood.AppUi.Hosting.Avalonia.Android" Version="$(VpnHoodVersion)" />
-		<PackageReference Include="VpnHood.AppUi.Presentation.Classic.Avalonia" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppHosting.Avalonia.Android" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppUi.Avalonia.Classic" Version="$(VpnHoodVersion)" />
 		<PackageReference Include="VpnHood.AppUi.Assets.Classic" Version="$(VpnHoodVersion)" />
 		<!-- Google Play: its updates and reviews, and its billing and sign-in. -->
-		<PackageReference Include="VpnHood.AppLib.Stores.GooglePlay.Core" Version="$(VpnHoodVersion)" />
-		<PackageReference Include="VpnHood.AppLib.Stores.GooglePlay" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppLogic.Stores.GooglePlay.Core" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppLogic.Stores.GooglePlay" Version="$(VpnHoodVersion)" />
 		<!-- Sign-in and purchases on your portal. -->
-		<PackageReference Include="VpnHood.AppLib.Portal" Version="$(VpnHoodVersion)" />
+		<PackageReference Include="VpnHood.AppLogic.Portal" Version="$(VpnHoodVersion)" />
 	</ItemGroup>
 </Project>

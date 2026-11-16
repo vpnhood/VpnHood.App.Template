@@ -10,6 +10,7 @@
     <VpnAppBrandingZip>$(MSBuildProjectDirectory)/$(IntermediateOutputPath)app.zip</VpnAppBrandingZip>
     <!-- .NET for Android turns an app's OutputType into Library; AndroidApplication still tells. -->
     <VpnAppIsApp Condition="'$(VpnAppIsApp)' == '' And ('$(OutputType)' == 'Exe' Or '$(OutputType)' == 'WinExe' Or '$(AndroidApplication)' == 'true')">true</VpnAppIsApp>
+    <VpnAppIsApple Condition="$(TargetFramework.Contains('-ios')) Or $(TargetFramework.Contains('-tvos'))">true</VpnAppIsApple>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(VpnAppIsApp)' == 'true' And $(TargetFramework.Contains('-android'))">
@@ -17,10 +18,11 @@
          "assets/app.zip". -->
     <AndroidAsset Include="$(VpnAppBrandingZip)" Link="assets\assets\app.zip" Visible="false" />
   </ItemGroup>
-  <ItemGroup Condition="'$(VpnAppIsApp)' == 'true' And $(TargetFramework.Contains('-ios'))">
+  <!-- iOS and the Apple TV: a file of the app bundle. -->
+  <ItemGroup Condition="'$(VpnAppIsApp)' == 'true' And '$(VpnAppIsApple)' == 'true'">
     <BundleResource Include="$(VpnAppBrandingZip)" Link="assets\app.zip" Visible="false" />
   </ItemGroup>
-  <ItemGroup Condition="'$(VpnAppIsApp)' == 'true' And !$(TargetFramework.Contains('-android')) And !$(TargetFramework.Contains('-ios'))">
+  <ItemGroup Condition="'$(VpnAppIsApp)' == 'true' And !$(TargetFramework.Contains('-android')) And '$(VpnAppIsApple)' != 'true'">
     <None Include="$(VpnAppBrandingZip)" Link="assets\app.zip" CopyToOutputDirectory="PreserveNewest" Visible="false" />
   </ItemGroup>
 

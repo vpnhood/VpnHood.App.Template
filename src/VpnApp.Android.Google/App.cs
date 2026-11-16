@@ -1,14 +1,14 @@
 using Android.Runtime;
 using Microsoft.Extensions.Logging;
-using VpnHood.AppLib.Abstractions.Accounts;
-using VpnHood.AppLib.Abstractions.Billing;
-using VpnHood.AppLib.App;
-using VpnHood.AppLib.App.Android.Constants;
-using VpnHood.AppLib.App.Services.Updaters;
-using VpnHood.AppLib.Portal;
-using VpnHood.AppLib.Stores.GooglePlay;
-using VpnHood.AppUi.Hosting.Avalonia.Android;
-using VpnHood.AppUi.Presentation.Classic.Avalonia;
+using VpnHood.AppLogic.Abstractions.Accounts;
+using VpnHood.AppLogic.Abstractions.Billing;
+using VpnHood.AppLogic.App;
+using VpnHood.AppLogic.App.Android.Constants;
+using VpnHood.AppLogic.App.Services.Updaters;
+using VpnHood.AppLogic.Portal;
+using VpnHood.AppLogic.Stores.GooglePlay;
+using VpnHood.AppHosting.Avalonia.Android;
+using VpnHood.AppUi.Avalonia.Classic;
 using VpnHood.Net.Toolkit.Logging;
 
 namespace VpnApp.Android.Google;
@@ -70,7 +70,7 @@ public class App(IntPtr javaReference, JniHandleOwnership transfer)
 
             // Google sign-in, Play's billing, and your portal behind both: the portal maps each store
             // product to the plan it redeems.
-            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStoragePath,
+            var authenticationProvider = new PortalAuthenticationProvider(context.NoBackupStorage,
                 appConfigs.PortalBaseUri, context.AppId, [new GooglePlayAuthenticationProvider(googleSignInClientId)],
                 restoreCredentialProvider: new GoogleRestoreCredentialProvider());
             return new PortalAccountProvider(authenticationProvider, TryCreateBillingProvider(),
